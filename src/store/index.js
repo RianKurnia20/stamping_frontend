@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    authToken: null,
     sidebarVisible: '',
     sidebarUnfoldable: false,
     theme: 'light',
@@ -15,8 +16,11 @@ export default createStore({
     },
     updateSidebarVisible(state, payload) {
       state.sidebarVisible = payload.value
-    },
+    }
   },
-  actions: {},
+  actions: {
+  },
+  getters: {
+  },
   modules: {},
 })

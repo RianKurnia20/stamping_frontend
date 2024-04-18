@@ -10,7 +10,7 @@
       >
         Account
       </CDropdownHeader>
-      <CDropdownItem>
+      <!-- <CDropdownItem>
         <CIcon icon="cil-bell" /> Updates
         <CBadge color="info" class="ms-auto">{{ itemsCount }}</CBadge>
       </CDropdownItem>
@@ -49,22 +49,31 @@
       <CDropdownDivider />
       <CDropdownItem>
         <CIcon icon="cil-shield-alt" /> Lock Account
-      </CDropdownItem>
-      <CDropdownItem>
-        <CIcon icon="cil-lock-locked" /> Logout
+      </CDropdownItem> -->
+      <CDropdownItem @click="logout">
+        <CIcon icon="cil-lock-locked"/> Logout
       </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>
 
 <script>
-import avatar from '@/assets/images/avatars/8.jpg'
+import avatar from '@/assets/images/avatars/10.jpg'
+import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'AppHeaderDropdownAccnt',
   setup() {
+    const router = useRouter()
+    const logout = () => {
+      Cookies.remove('jwt_token');
+      router.push('/login')
+    }
     return {
       avatar: avatar,
       itemsCount: 42,
+      logout
     }
   },
 }

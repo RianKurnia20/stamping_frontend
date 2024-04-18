@@ -3,15 +3,16 @@
     <AppSidebar />
     <div class="wrapper d-flex flex-column min-vh-100">
       <AppHeader />
-      <div class="body flex-grow-1">
-        <CContainer class="px-4" lg>
+      <div class="body ">
+        <CContainer class="px-4" fluid>
           <router-view />
         </CContainer>
       </div>
-      <AppFooter />
+      <!-- <AppFooter /> -->
     </div>
   </div>
 </template>
+
 <script>
 import { CContainer } from '@coreui/vue'
 import AppFooter from '@/components/AppFooter.vue'
