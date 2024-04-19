@@ -1,14 +1,11 @@
 <template>
-  <!-- <CCard>
-    <CCardBody> -->
-      <v-chart class="chart" :option="option" autoresize />
-      {{ xAxisData }}
-      {{ seriesData }}
-      {{ legendData }}
-      {{ seriesName }}
-      {{ chartTitle }}
-    <!-- </CCardBody>
-  </CCard> -->
+  <CCol>
+    <CCard>
+      <CCardBody>
+          <v-chart class="chart" :option="option" autoresize />
+      </CCardBody>
+    </CCard>
+  </CCol>
 </template>
 
 <script setup>
@@ -21,7 +18,7 @@ use([TitleComponent, TooltipComponent, LegendComponent, ToolboxComponent, GridCo
 
 
 import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, provide, defineProps } from 'vue';
+import { ref, provide, watchEffect } from 'vue';
 
 
 use([
@@ -35,18 +32,19 @@ use([
 provide(THEME_KEY, 'light');
 
 const props = defineProps({
-  seriesData : Array,
-  seriesName : String,
-  legendData : String,
-  xAxisData : Array,
-  chartTitle : String
+  seriesData:Array,
+  seriesName:Array,
+  xAxis:Array,
+  legend:Array,
+  chartTitle:String,
+  chartData:Object
 });
 
 const labelOption = ref({
   show: true,
   position: "top",
   formatter: "{c}  {name|{a}}",
-  fontSize: 12,
+  fontSize: 10,
   rich: {
     name: {},
   },
@@ -79,18 +77,37 @@ const labelOption = ref({
   },
 })
 
+const yformat = function (value) {
+  var newValue = value;
+  if (value >= 1000000000) {
+    newValue = (value / 1000000000).toFixed(0) + "B";
+  } else if (value >= 1000000) {
+    newValue = (value / 1000000).toFixed(0) + "M";
+  } else if (value >= 1000) {
+    newValue = (value / 1000).toFixed(0) + "K";
+  }
+  return newValue;
+};
+
 const option = ref({
   title: {
     text: props.chartTitle
   },
   tooltip: {
-    trigger: 'axis',
+    trigger: "axis",
     axisPointer: {
-      type: "shadow"
-    }
+      type: 'shadow'
+    },
   },
   legend: {
-    data: props.legendData
+    data: props.legend
+  },
+  toolbox: {
+    show: true,
+    feature: {
+    dataView: { readOnly: false },
+    saveAsImage: {}
+    }
   },
   grid: {
     left: '3%',
@@ -98,43 +115,56 @@ const option = ref({
     bottom: '3%',
     containLabel: true
   },
-  toolbox: {
-    show: true,
-    feature: {
-      dataZoom: {
-        yAxisIndex: 'none'
-      },
-      dataView: { readOnly: false },
-      magicType: { type: ['line', 'bar'] },
-      restore: {},
-      saveAsImage: {}
+  xAxis: [
+    {
+      type: 'category',
+      boundaryGap: false,
+      data: props.xAxis,
     }
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: true,
-    data: props.xAxisData
-  },
-  yAxis: {
-    type: 'value'
-  },
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+          formatter: yformat,
+          fontSize: 12,
+        },
+    }
+  ],
   series: []
-});
-
-option.value.series.push({
-  name: props.seriesName,
-  type: 'bar',
-  label : labelOption,
-  data: props.seriesData
 })
 
+const updateChart = () => {
+  // Reset option.value.series
+  option.value.series = [];
+  option.value.legend.data = props.legend
+  option.value.title.text = props.chartTitle
+  option.value.xAxis[0].data = props.xAxis
 
+  // Loop through props.seriesData and push each series to option.value.series
+  props.seriesData.forEach((data, index) => {
+    option.value.series.push({
+      name: props.seriesName[index], // Use seriesName prop for series name
+      type: 'line', // Assuming the type is always 'line'
+      lineStyle: {
+        normal: {
+          width: 5,
+        }
+      },
+      smooth: true,
+      label : labelOption,
+      data: data // Use the data from props.seriesData
+    });
+  });
+}
 
-
+watchEffect(() => {
+  updateChart();
+});
 </script>
 
 <style scoped>
 .chart {
-  height: 300px;
+  height: 30vh;
 }
 </style>

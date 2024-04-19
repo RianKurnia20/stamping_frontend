@@ -9,7 +9,7 @@
     </div>
     </CCardHeader>
     <CCardBody>
-      <TablePca @edit-item="handleEditDeleteItem" @delete-item="handleEditDeleteItem"   @close="closeModal" @notif="showToast('success', 'Success Updating Data')" :userRole="userRole" :eventTable="eventTable"/>
+      <TablePca @edit-item="handleEditDeleteItem" @delete-item="handleEditDeleteItem"  @close="closeModal" @notif="showToast('success', 'Success Updating Data')" :userRole="userRole" :eventTable="eventTable"/>
       <ModalPca :visible="modalVisible" :item="selectedItem" @close="closeModal" :eventTable="eventTable"/>
     </CCardBody>
     <ToastNotif :color="toastColor" :body="toastBody" :toastVisible="toastVisible"/>
