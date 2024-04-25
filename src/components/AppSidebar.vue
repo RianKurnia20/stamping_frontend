@@ -22,9 +22,10 @@
       <CCloseButton class="d-lg-none" dark @click="$store.commit('toggleSidebar')" />
     </CSidebarHeader>
     <AppSidebarNav />
-    <!-- <CSidebarFooter class="border-top d-none d-lg-flex">
-      <CSidebarToggler @click="$store.commit('toggleUnfoldable')" />
-    </CSidebarFooter> -->
+    <CSidebarFooter class="border-top d-none d-lg-flex">
+      <div class="footer-copyright">HIROSE ELECTRIC IDN | RK20 <span class="ms-1">&copy; {{ new Date().getFullYear() }}</span></div>
+      <!-- <CSidebarToggler @click="$store.commit('toggleUnfoldable')" /> -->
+    </CSidebarFooter>
   </CSidebar>
 </template>
 
@@ -50,3 +51,11 @@ export default {
   },
 }
 </script>
+
+
+<style scoped>
+.footer-copyright{
+  font-size: small;
+  font-family:monospace;
+}
+</style>

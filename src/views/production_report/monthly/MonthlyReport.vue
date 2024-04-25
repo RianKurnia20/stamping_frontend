@@ -1,13 +1,105 @@
 <template>
-  <h1>Monthly Report Production</h1>
+  <CContainer fluid>
+    <CRow>
+      <CCol xs="8">
+        <h3>Monthly Report</h3>
+      </CCol>
+      <CCol xs="2">
+        <MachineSelector v-model="selectedMachine"/>
+      </CCol>
+      <CCol xs="2">
+        <MonthSelector v-model="selectedMonth"/>
+      </CCol>
+    </CRow>
+  </CContainer>
+  <CRow>
+    <PieChart chartTitle="Output" unit="pin" :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()"/>
+    <PieChart chartTitle="Reject In Process" unit="pin" :seriesData="formatData(dataProduction, 'rip')" :totalData="Number(totalProduction.rip).toLocaleString()"/>
+    <PieChart chartTitle="Stop Time" unit="Minutes" :seriesData="formatData(dataProduction, 'stop_time')" :totalData="Number(totalProduction.stop_time).toLocaleString()"/>
+  </CRow>
+  <CRow>
+    <PieChart chartTitle="Dummy" unit="Pin" :seriesData="formatData(dataProduction, 'dummy')" :totalData="Number(totalProduction.dummy).toLocaleString()"/>
+    <PieChart chartTitle="Reject Setting" unit="Pin" :seriesData="formatData(dataProduction, 'reject_setting')" :totalData="Number(totalProduction.reject_setting).toLocaleString()"/>
+    <PieChart chartTitle="Sales" unit="Rp." :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()"/>
+  </CRow>
 </template>
 
 
 <script setup>
+import MonthSelector from './MonthSelector.vue';
+import MachineSelector from '../daily_weekly/MachineSelector.vue';
+import PieChart from './PieChart.vue';
+import axios from 'axios';
+import { onBeforeMount, ref, watch } from 'vue';
+
+const selectedMonth = ref({month: new Date().getMonth(), year: new Date().getFullYear()});
+const selectedMachine = ref('STAMPING LINE 1');
+const dataProduction = ref()
+const totalProduction = ref({
+    "ok": "0",
+    "rip": "0",
+    "reject_setting": "0",
+    "dummy": "0",
+    "stop_time": "0"
+})
+
+watch([selectedMachine, selectedMonth], ([newMachineValue, newMonthValue]) => {
+  getProductionByMachineMonth(newMonthValue, newMachineValue)
+  getTotalProductionByMonth(newMonthValue, newMachineValue)
+});
+
+onBeforeMount(async() => {
+  await getProductionByMachineMonth(selectedMonth.value, selectedMachine.value);
+  await getTotalProductionByMonth(selectedMonth.value, selectedMachine.value);
+});
+
+const formatData = (data, key1) => {
+    if (!Array.isArray(data)) {
+          return [];
+      }
+    return data.map(entry => ({
+        value: parseInt(entry[key1]),
+        name: entry.name
+    }));
+}
+
+const getProductionByMachineMonth = async (selectedMonth, selectedMachine) => {
+  try {
+    const { year, month } = selectedMonth;
+    const url = `http://192.168.148.125:5000/productions/monthly?year=${year}&month=${month+1}&id_machine=${selectedMachine}`;
+    const response = await axios.get(url);
+    dataProduction.value = response.data.data
+  } catch (error) {
+    console.error('Error fetching production data:', error);
+  }
+}
+
+const getTotalProductionByMonth = async (selectedMonth, selectedMachine) => {
+  try {
+    const { year, month } = selectedMonth;
+    const url = `http://192.168.148.125:5000/productions/monthly/total?year=${year}&month=${month+1}&id_machine=${selectedMachine}`;
+    const response = await axios.get(url);
+    if (response.data.data.length != 0){
+      totalProduction.value = response.data.data[0]
+    }else{
+      totalProduction.value = {
+        "ok": "0",
+        "rip": "0",
+        "reject_setting": "0",
+        "dummy": "0",
+        "stop_time": "0"
+      }
+    }
+    
+  } catch (error) {
+    console.error('Error fetching production data:', error);
+  }
+}
 
 </script>
+
 <style scoped>
-.h1{
-  color: aqua;
+.row{
+  margin-bottom: 1rem;
 }
 </style>

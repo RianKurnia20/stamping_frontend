@@ -2,12 +2,12 @@
   <VueDatePicker 
     v-model="date" 
     range
-    max-range="30" 
+    max-range="60" 
     min-range="6" 
     :enable-time-picker="false" 
     vertical 
     placeholder="Select Date Here"
-    @change="handleChange"
+    :teleport="true"
   />
 </template>
 
@@ -20,13 +20,5 @@ const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 
 const formattedStartDate = startDate.toISOString().split('T')[0]; 
 const formattedEndDate = endDate.toISOString().split('T')[0]; 
 const date = ref([formattedStartDate, formattedEndDate]);
-
-const emit = defineEmits(['change'])
-
-
-
-const handleChange = () => {
-  emit('change', date)
-}
 
 </script>

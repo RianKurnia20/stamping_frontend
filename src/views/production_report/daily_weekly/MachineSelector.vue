@@ -4,15 +4,13 @@
     aria-label="Default select example"
     :options="machines"
     v-model="selectedMachine"
-    @change="handleChange"
   />
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const emit = defineEmits(['change']);
 
 const selectedMachine = ref('');
 const machines = ref([]);
@@ -35,7 +33,4 @@ const fetchDataMachine = () => {
     });
 };
 
-const handleChange = () => {
-  emit('change', selectedMachine.value);
-};
 </script>

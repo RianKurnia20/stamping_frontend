@@ -3,7 +3,7 @@
         <CFormInput size="sm" type="text" id="searchData" v-model="search" placeholder="Search"/>
       </div>
     <div>
-        <vue3-datatable :rows="rows" :columns="cols" :loading="loading" :sortable="true" skin="bh-table-hover bh-table-bordered bh-table-compact" :search="search">
+        <vue3-datatable :rows="rows" :columns="cols" :loading="loading" :sortable="true" skin="bh-table-hover bh-table-bordered bh-table-compact" :search="search" style="font-size: smaller;">
             <template #id="data">
                 <strong>{{ data.id_production }}</strong>
             </template>
@@ -48,7 +48,7 @@
 
       const cols =
           ref([
-              { field: 'id_production', title: 'ID', isUnique: true },
+              // { field: 'id_production', title: 'ID', isUnique: true },
               { field: 'date', title: 'Date' },
               { field: 'id_machine', title: 'Machine'},
               { field: 'id_kanagata', title: 'Kanagata'},

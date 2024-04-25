@@ -97,18 +97,18 @@ const routes = [
         ]
       },
       {
-        path: '/report',
+        path: '/production_report',
         name: 'Production Report',
         component: {
           render() {
             return h(resolveComponent('router-view'))
           },
         },
-        redirect : '/production_report/daily',
+        redirect : '/production_report/daily_weekly',
         children : [
           {
             path : '/production_report/daily_weekly',
-            name : 'Daily',
+            name : 'Daily Weekly',
             component: () => import('@/views/production_report/daily_weekly/DailyWeeklyReport.vue'),
             meta: {
               requiresAuth: true,
