@@ -146,6 +146,16 @@ const routes = [
             },
             beforeEnter: authMiddleware,
           },
+          {
+            path : '/production_report/summary',
+            name : 'Summary',
+            component: () => import('@/views/production_report/summary/SummaryReport.vue'),
+            meta: {
+              requiresAuth: true,
+              roles: ['admin','staff','viewer']
+            },
+            beforeEnter: authMiddleware,
+          },
           
         ]
       },

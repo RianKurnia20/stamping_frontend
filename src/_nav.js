@@ -74,6 +74,11 @@ export default [
         name: 'Performance',
         to: '/production_report/performance',
       },
+      {
+        component: 'CNavItem',
+        name: 'Summary',
+        to: '/production_report/summary',
+      },
     ]
   },
   {

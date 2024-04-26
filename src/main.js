@@ -18,5 +18,4 @@ app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DocsExample', DocsExample)
 app.component('VueDatePicker', VueDatePicker);
-
 app.mount('#app')

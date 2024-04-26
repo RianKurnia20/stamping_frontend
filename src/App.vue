@@ -6,6 +6,7 @@ import { onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useColorModes } from '@coreui/vue'
 
+
 export default {
   setup() {
     const { isColorModeSet, setColorMode } = useColorModes(
@@ -38,4 +39,5 @@ export default {
 @import 'styles/style';
 // We use those styles to show code examples, you should remove them in your application.
 @import 'styles/examples';
+
 </style>

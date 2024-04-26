@@ -7,7 +7,7 @@
             <CCard class="p-4">
               <CCardBody>
                 <CForm>
-                  <h1>Login</h1>
+                  <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="58" style="margin-bottom: .5rem;"/> 
                   <p class="text-body-secondary">Sign In to your account</p>
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
@@ -51,7 +51,7 @@
                     or hit button bellow to register by your self.
                   </p>
                   <router-link to="/pages/register">
-                    <CButton color="light" variant="outline" class="mt-3">
+                    <CButton color="light" variant="outline" class="mt-3 custom-button">
                       Register Now!
                     </CButton>
                   </router-link>
@@ -70,6 +70,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import hrs from '@/assets/images/hrs.png'
 
 export default {
   name: 'Login',
@@ -101,15 +102,17 @@ export default {
       email,
       password,
       login,
-      errorMessage
+      errorMessage,
+      hrs
     };
   }
 }
 </script>
 
-<style>
+<style scoped>
 .error-message{
   font-size: small;
   color: red;
 }
+
 </style>

@@ -141,7 +141,7 @@ const option = ref({
   series: [],
 })
 
-const colors = ['rgb(71, 147, 175)', 'rgb(255, 196, 112)', 'rgb(221, 87, 70)']
+
 
 const updateChart = () => {
   // Reset option.value.series

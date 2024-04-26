@@ -10,7 +10,8 @@
                 novalidate
                 :validated="validateForm"
               >
-                <h1>Register an Account</h1>
+                <CImage :src="hrs" :height="58" style="margin-bottom: .5rem;" align="center"/> 
+                <h5 style="text-align: center; margin-bottom: .5rem;">Register an Account</h5>
                 <CInputGroup class="mb-3">
                   <CInputGroupText>
                     <CIcon icon="cil-user" />
@@ -79,6 +80,7 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import hrs from '@/assets/images/hrs.png'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -140,7 +142,8 @@ export default {
       username,
       password,
       repeatPassword,
-      validateForm
+      validateForm,
+      hrs
     };
   }
 }

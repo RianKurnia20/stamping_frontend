@@ -12,6 +12,14 @@
       </CCol>
     </CRow>
   </CContainer>
+  <CRow>
+    <YearlyChart />
+  </CRow>
+  <CRow>
+    <YearlyChart />
+    <YearlyChart />
+    <YearlyChart />
+  </CRow>
 </template>
 
 
@@ -19,6 +27,7 @@
 import { ref } from 'vue';
 import MachineSelector from '../daily_weekly/MachineSelector.vue';
 import YearSelector from './YearSelector.vue';
+import YearlyChart from './YearlyChart.vue'
 
 
 const selectedMachine = ref('STAMPING LINE 1');
@@ -29,4 +38,7 @@ const selectedYear = ref(new Date().getFullYear());
 
 
 <style scoped>
+.row{
+  margin-bottom: 1rem;
+}
 </style>
