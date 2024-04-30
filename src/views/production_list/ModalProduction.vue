@@ -141,7 +141,7 @@ export default {
     const dummy = ref('');
     const dataSelected = ref({})
     const errorMessage = ref('');
-    const mode = ref('update'); // Default mode is 'create'
+    const mode = ref('update'); 
 
     watch(() => props.item, (newValue) => {
       if (newValue) {

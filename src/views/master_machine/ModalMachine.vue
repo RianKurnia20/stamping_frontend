@@ -109,7 +109,6 @@ export default {
 
     watch(() => props.item, (newValue) => {
       if (newValue) {
-        console.log(newValue)
         idMachine.value = newValue.id_machine;
         actualShot.value = newValue.actual_shot;
         shift.value = newValue.shift;

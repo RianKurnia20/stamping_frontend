@@ -70,11 +70,10 @@
             data.value = formattedData;
             rows.value = formattedData; // Assign formatted data to rows
             loading.value = false; // Update loading status after data is fetched
-            pageSize.value = formattedData.length
-            console.log(rows.value)
+            pageSize.value = formattedData.lengthd
           })
           .catch(error => {
-            console.log('Error fetching data:', error);
+            console.error('Error fetching data:', error);
             loading.value = false; // Update loading status in case of error
           });
       };

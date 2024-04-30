@@ -1,4 +1,4 @@
-const formatDate = (dateString) => {
+const formatDate = (dateString, detail = true) => {
   const date = new Date(dateString);
   const pad = (num) => {
     return num < 10 ? '0' + num : num;
@@ -11,7 +11,11 @@ const formatDate = (dateString) => {
   const minutes = pad(date.getMinutes());
   const seconds = pad(date.getSeconds());
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  if (detail) {
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    } else {
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
 };
 
 export default formatDate;

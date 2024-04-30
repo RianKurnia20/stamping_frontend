@@ -42,6 +42,16 @@ const routes = [
             },
             beforeEnter: authMiddleware,
           },
+          {
+            path : '/data/planner',
+            name : 'Production Plan',
+            component: () => import('@/views/production_plan/ProductionPlan.vue'),
+            meta: {
+              requiresAuth: true,
+              roles: ['admin','staff','viewer']
+            },
+            beforeEnter: authMiddleware,
+          },
         ]
       },
       {

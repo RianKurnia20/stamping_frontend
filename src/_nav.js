@@ -93,6 +93,11 @@ export default [
     items: [
       {
         component: 'CNavItem',
+        name: 'Planning',
+        to: '/data/planner',
+      },
+      {
+        component: 'CNavItem',
         name: 'List Production',
         to: '/data/production',
       },

@@ -9,18 +9,13 @@
       </CCol>
     </CRow>
   </CContainer>
-  <div class="schedule-calendar">
-    <ScheduleCalendar />
-  </div>
 </template>
 
 
 <script setup>
 import { ref } from 'vue';
 import YearSelector from '../yearly/YearSelector.vue';
-import ScheduleCalendar from './ScheduleCalendar.vue';
 import { CContainer } from '@coreui/vue';
-
 
 
 const selectedYear = ref(new Date().getFullYear());
@@ -30,8 +25,7 @@ const selectedYear = ref(new Date().getFullYear());
 
 
 <style scoped>
-.schedule-calendar {
-  height: 70vh;
-  width:100%
+.container-fluid{
+  margin-bottom: 1rem;
 }
 </style>

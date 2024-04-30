@@ -6,6 +6,7 @@ const eventTable = ref({
   refreshMachine : false,
   refreshKanagata : false,
   refreshProduction : false,
+  refreshPlan : false,
 })
 
 export default eventTable

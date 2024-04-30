@@ -54,7 +54,6 @@ export default {
     const openModal = (item) => {
       selectedItem.value = item;
       modalVisible.value = true;
-      console.log(selectedItem.value)
     };
 
     const closeModal = () => {
