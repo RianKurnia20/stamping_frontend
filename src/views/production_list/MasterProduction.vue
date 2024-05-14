@@ -1,14 +1,14 @@
 <template>
-  <CCard class="">
-    <CCardHeader class="d-flex justify-content-between align-items-center">
-        <h5>Production List</h5>
-    </CCardHeader>
+  <CContainer fluid style="margin-bottom: 1rem;">
+    <h3>Production List</h3>
+  </CContainer>
+  <CCard>
     <CCardBody>
       <TableProduction @edit-item="handleEditDeleteItem" @delete-item="handleEditDeleteItem" @close="closeModal" @notif="showToast('success', 'Success Updating Data')" :userRole="userRole" :eventTable="eventTable"/>
-      <ModalProduction :visible="modalVisible" :item="selectedItem" @close="closeModal" :eventTable="eventTable"/>
     </CCardBody>
-    <ToastNotif :color="toastColor" :body="toastBody" :toastVisible="toastVisible"/>
   </CCard>
+    <ModalProduction :visible="modalVisible" :item="selectedItem" @close="closeModal" :eventTable="eventTable"/>
+    <ToastNotif :color="toastColor" :body="toastBody" :toastVisible="toastVisible"/>
 </template>
 
 <script>

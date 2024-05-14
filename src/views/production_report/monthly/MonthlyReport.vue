@@ -13,14 +13,14 @@
     </CRow>
   </CContainer>
   <CRow>
-    <PieChart chartTitle="Output" unit="pin" :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()"/>
-    <PieChart chartTitle="Reject In Process" unit="pin" :seriesData="formatData(dataProduction, 'rip')" :totalData="Number(totalProduction.rip).toLocaleString()"/>
-    <PieChart chartTitle="Stop Time" unit="Minutes" :seriesData="formatData(dataProduction, 'stop_time')" :totalData="Number(totalProduction.stop_time).toLocaleString()"/>
+    <PieChart chartTitle="Output" unit="pin" :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
+    <PieChart chartTitle="Reject In Process" unit="pin" :seriesData="formatData(dataProduction, 'rip')" :totalData="Number(totalProduction.rip).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
+    <PieChart chartTitle="Stop Time" unit="Minutes" :seriesData="formatData(dataProduction, 'stop_time')" :totalData="Number(totalProduction.stop_time).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
   </CRow>
   <CRow>
-    <PieChart chartTitle="Dummy" unit="Pin" :seriesData="formatData(dataProduction, 'dummy')" :totalData="Number(totalProduction.dummy).toLocaleString()"/>
-    <PieChart chartTitle="Reject Setting" unit="Pin" :seriesData="formatData(dataProduction, 'reject_setting')" :totalData="Number(totalProduction.reject_setting).toLocaleString()"/>
-    <PieChart chartTitle="Sales" unit="Rp." :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()"/>
+    <PieChart chartTitle="Dummy" unit="Pin" :seriesData="formatData(dataProduction, 'dummy')" :totalData="Number(totalProduction.dummy).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
+    <PieChart chartTitle="Reject Setting" unit="Pin" :seriesData="formatData(dataProduction, 'reject_setting')" :totalData="Number(totalProduction.reject_setting).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
+    <PieChart chartTitle="Sales" unit="Rp." :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
   </CRow>
 </template>
 

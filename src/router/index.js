@@ -18,7 +18,17 @@ const routes = [
         component: () => import('@/views/live_dashboard/LiveDashboard.vue'),
         meta: {
           requiresAuth: true,
-          roles: ['admin','staff','viewer']
+          roles: ['admin','staff','viewer'],
+        },
+        beforeEnter: authMiddleware,
+      },
+      {
+        path: '/live_maintenance',
+        name: 'Live Maintenance',
+        component: () => import('@/views/live_maintenance/LiveMaintenance.vue'),
+        meta: {
+          requiresAuth: true,
+          roles: ['admin','staff','viewer'],
         },
         beforeEnter: authMiddleware,
       },

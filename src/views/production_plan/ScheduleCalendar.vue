@@ -12,10 +12,11 @@ import { Qalendar } from "qalendar";
 import { onMounted, ref, watch } from "vue";
 import formatDate from '@/middleware/LocaleDate';
 
-const emit = defineEmits(['edit-event', 'delete-event', 'close'])
+const emit = defineEmits(['edit-event', 'delete-event', 'close', 'update-view'])
 const props = defineProps({
   eventTable: Object,
   userRole: String,
+  idMachine: String
 })
 
 onMounted(()=>{
@@ -28,6 +29,14 @@ watch(() => props.eventTable.refreshPlan, (newValue) => {
     // eslint-disable-next-line vue/no-mutating-props
     props.eventTable.refreshPlan = false
     emit('close')
+    emit('update-view')
+  }
+})
+
+watch(() => props.idMachine, (newValue) => {
+  if(newValue){
+    fetchData()
+    emit('update-view')
   }
 })
 
@@ -39,12 +48,12 @@ const config = ref({
     fontFamily: 'Arial',
     colorSchemes: {
       shift1: {
-        color: '#fff',
-        backgroundColor: '#5BBCFF',
+        color: '#000',
+        backgroundColor: '#FFC26F',
       },
       shift2: {
-        color: '#fff',
-        backgroundColor: '#610C9F',
+        color: '#000',
+        backgroundColor: '#C38154',
       }
     }
   },
@@ -68,26 +77,33 @@ const handleDeleteEvent = (event) => {
 };
 
 const fetchData = () => {
-  axios.get('http://192.168.148.125:5000/plan')
+  axios.get(`http://192.168.148.125:5000/plan?id_machine=${props.idMachine}`)
     .then(response => {
-      const formattedData = response.data.data.map(item => ({
-        id: item.id_plan,
-        description: 'Qty : ' + item.qty + ' / Machine : ' + item.id_machine + ' / Kanagata : ' + item.id_kanagata + ' / Shift : ' + item.shift,
-        topic: item.time_plan + ' minutes',
-        disableDnD: ['month','week','day'],
-        disableResize : ['month','week','day'],
-        isEditable: true,        
-        title : item.name,
-        colorScheme: 'shift'+ item.shift,
-        time : {start: formatDate(item.start, false), end: formatDate(item.end, false)},
-      }));
+      const formattedData = response.data.data.map(item => {
+        let title;
+        if (props.idMachine === 'ALL') {
+          title = item.id_machine;
+        } else {
+          title = item.name;
+        }
+        return {
+          id: item.id_plan,
+          description: 'Qty : ' + item.qty + ' / Machine : ' + item.id_machine + ' / Product : ' + item.name + ' / Kanagata : ' + item.id_kanagata + ' / Shift : ' + item.shift,
+          topic: item.time_plan + ' minutes',
+          disableDnD: ['month','week','day'],
+          disableResize : ['month','week','day'],
+          isEditable: true,        
+          title : title,
+          colorScheme: 'shift'+ item.shift,
+          time : {start: formatDate(item.start, false), end: formatDate(item.end, false)},
+        };
+      });
       events.value = formattedData;
     })
     .catch(error => {
       console.error('Error fetching data:', error);
     });
 };
-
 
 
 </script>

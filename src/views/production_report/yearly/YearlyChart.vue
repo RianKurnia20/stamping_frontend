@@ -37,9 +37,16 @@ use([CanvasRenderer, LineChart, BarChart, TitleComponent, TooltipComponent, Lege
 
 provide(THEME_KEY, 'light')
 
+const props = defineProps({
+  seriesData : Array,
+  chartTitle : String,
+  totalData : Array,
+  xAxisData : Array
+})
+
 const option = ref({
   title: {
-    text: 'Chart Config',
+    text: props.chartTitle,
     top:0,
     left:'center'
   },
@@ -67,7 +74,7 @@ const option = ref({
   xAxis: [
     {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: props.xAxisData,
       axisPointer: {
         type: 'shadow'
       }

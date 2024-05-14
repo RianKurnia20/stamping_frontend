@@ -1,7 +1,7 @@
 <template>
   <div class="container-card-monitoring">
     <CCard class="mb-0">
-      <CCardBody class="run card-body-monitoring">
+      <CCardBody class="bg-warning card-body-monitoring">
         <CRow class="mb-3">
           <CCol sm="4" class="big-font">STAMPING LINE 10</CCol>
           <CCol sm="2" class="small-font text-center">

@@ -49,7 +49,8 @@ const props = defineProps({
   unit : {
     type: String,
     default: ''
-  }
+  },
+  source : Array
 })
 
 
@@ -114,18 +115,39 @@ const option = ref({
     {
       type: 'text',
       left: 'center',
-      bottom: 20,
+      bottom: 30,
       style: {
         text: 'Total : ' + props.totalData +' '+ props.unit,
         textAlign: 'center',
         font: 'bold' + ' 14px ' + 'Arial',
+      },
+    },
+    {
+      type: 'text',
+      left: '0%',
+      top: '0',
+      style: {
+        text: props.source[0],
+        textAlign: 'center',
+        font: ' 16px ' + 'Arial',
+      },
+    },
+    {
+      type: 'text',
+      left: '0%',
+      bottom: '0%',
+      style: {
+        text: props.source[1].year + '/' + props.source[1].month,
+        textAlign: 'center',
+        font: ' 14px ' + 'Arial',
       },
     }
   ],
 })
 
 const updateChart = () => {
-
+  option.value.graphic[1].style.text = props.source[0]
+  option.value.graphic[2].style.text = props.source[1].year + '/' + (props.source[1].month+1)
   option.value.series[0].data = props.seriesData
   option.value.title.text = props.chartTitle
   if(props.unit === 'Rp.'){
@@ -138,6 +160,7 @@ const updateChart = () => {
 watchEffect(() => {
   updateChart()
 })
+
 
 </script>
 

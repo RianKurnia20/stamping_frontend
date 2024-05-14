@@ -5,7 +5,7 @@
         <h3>Production Plan</h3>
       </CCol>
       <CCol xs="2" >
-        <MachineSelector v-model="selectedMachine"/>
+        <MachineSelector v-model="selectedMachine" :addOption="allMachineOption"/>
       </CCol>
       <CCol xs="1" >
         <CButton :disabled="userRole ==='viewer'"  color="success" variant="outline" @click="openModal(null)">
@@ -15,9 +15,10 @@
     </CRow>
   </CContainer>
   <div class="schedule-calendar">
-    <ScheduleCalendar @edit-event="openModal" @delete-event="openModal" :eventTable="eventTable" @close="closeModal" :userRole="userRole"/>
+    <ScheduleCalendar @edit-event="openModal" @delete-event="openModal" :eventTable="eventTable" @close="closeModal" :userRole="userRole" :idMachine="selectedMachine" @update-view="showToast('success', 'Updating views production plan success 👍')"/>
   </div>
   <ModalPlan :visible="modalVisible" :item="selectedItem" @close="closeModal" :eventTable="eventTable"/>
+  <ToastNotif :color="toastProps.color" :body="toastProps.body" :toastVisible="toastProps.visible" :placement="toastProps.placement" />
 </template>
 
 
@@ -25,14 +26,21 @@
 import { ref, onBeforeMount } from 'vue';
 import ScheduleCalendar from './ScheduleCalendar.vue';
 import MachineSelector from '../production_report/daily_weekly/MachineSelector.vue'
-import { CContainer } from '@coreui/vue';
 import ModalPlan from './ModalPlan.vue';
+import ToastNotif from '@/components/ToastNotif.vue'
 import checkRoles from '@/middleware/CheckRoles'
 import eventTable from '@/store/table';
 
+const allMachineOption = ref({ label : 'ALL MACHINE', value : 'ALL'})
 const modalVisible = ref(false);
-const selectedMachine = ref('STAMPING LINE 1');
+const selectedMachine = ref('ALL');
 const selectedItem = ref({});
+const toastProps = ref({
+  color : 'primary',
+  body : '',
+  visible: false,
+  placement: 'bottom-end'
+})
 
 const userRole = ref('')
 
@@ -56,6 +64,15 @@ const getUserRole = async () => {
     console.error('Error checking roles:', error.message);
   }
 };
+
+const showToast = (color, body) => {
+  toastProps.value.visible = true
+  toastProps.value.color = color
+  toastProps.value.body = body
+  setTimeout(() => {
+    toastProps.value.visible = false;
+  }, 5000);
+}
 
 </script>
 

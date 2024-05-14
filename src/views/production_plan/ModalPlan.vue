@@ -119,14 +119,15 @@ const handleClose = () => {
 const resetForm = () => {
   qty.value = 0
   shift.value=1
-  dateStart.value = new Date()
-  dateEnd.value = new Date()
+  dateStart.value = null
+  dateEnd.value = null
   idPca.value = 11
   idPlan.value = null
 }
 
 const addPlan = async () =>{
   try {
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.post('http://192.168.148.125:5000/plan', {
       id_pca: idPca.value,
       qty : qty.value,
@@ -147,6 +148,7 @@ const addPlan = async () =>{
 const updatePlan = async () =>{
   try {
     console.log(dateEnd.value, dateStart.value)
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.patch(`http://192.168.148.125:5000/plan/${idPlan.value}`,{
       id_pca: idPca.value,
       qty: qty.value,
@@ -164,6 +166,7 @@ const updatePlan = async () =>{
 
 const deletePlan = async () =>{
   try {
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.delete(`http://192.168.148.125:5000/plan/${idPlan.value}`)
     // eslint-disable-next-line vue/no-mutating-props
     props.eventTable.refreshPlan = true

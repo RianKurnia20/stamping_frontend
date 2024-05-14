@@ -9,14 +9,14 @@
       </CCol>
     </CRow>
   </CContainer>
+  <LayoutGrid />
 </template>
 
 
 <script setup>
 import { ref } from 'vue';
 import YearSelector from '../yearly/YearSelector.vue';
-import { CContainer } from '@coreui/vue';
-
+import LayoutGrid from './LayoutGrid.vue'
 
 const selectedYear = ref(new Date().getFullYear());
 

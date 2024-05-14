@@ -46,6 +46,11 @@ const props = defineProps({
   chartTitle: String,
   chartData: Object,
   xAxisName: String,
+  chartType: {
+    type: String,
+    default : 'line'
+  },
+  colorSeries: Array,
 })
 
 const labelOption = ref({
@@ -53,6 +58,7 @@ const labelOption = ref({
   position: 'top',
   formatter: '{c}  {name|{a}}',
   fontSize: 10,
+  rotate:30,
   rich: {
     name: {},
   },
@@ -92,6 +98,7 @@ const yformat = function (value) {
 }
 
 const option = ref({
+  color: props.colorSeries,
   title: {
     text: props.chartTitle,
   },
@@ -103,14 +110,15 @@ const option = ref({
   },
   legend: {
     data: props.legend,
+    left:'30%'
   },
   toolbox: {
     show: true,
     feature: {
-      dataZoom: {
-        yAxisIndex: 'none',
-      },
-      dataView: { readOnly: false },
+      // dataZoom: {
+      //   yAxisIndex: 'none',
+      // },
+      dataView: { readOnly: true },
       magicType: { type: ['line', 'bar'] },
       saveAsImage: {},
     },
@@ -124,7 +132,7 @@ const option = ref({
   xAxis: [
     {
       type: 'category',
-      boundaryGap: false,
+      boundaryGap: true,
       data: props.xAxis,
     },
   ],
@@ -154,10 +162,13 @@ const updateChart = () => {
   props.seriesData.forEach((data, index) => {
     option.value.series.push({
       name: props.seriesName[index], // Use seriesName prop for series name
-      type: 'line', // Assuming the type is always 'line'
+      type: props.chartType, // Assuming the type is always 'line'
       lineStyle: {
         width: 5,
         // color: colors[index % colors.length]
+      },
+      emphasis: {
+        focus: 'series'
       },
       smooth: true,
       label: labelOption,

@@ -5,12 +5,46 @@ export default [
   //   to: '/dashboard',
   //   icon: 'cil-speedometer',
   // },
+  // {
+  //   component: 'CNavItem',
+  //   name: 'Live Dashboard',
+  //   to: '/live_dashboard',
+  //   icon: 'cil-speedometer',
+  // },
+  {
+    component: 'CNavTitle',
+    name: 'Realtime',
+  },
   {
     component: 'CNavItem',
-    name: 'Live Dashboard',
+    name: 'Production',
     to: '/live_dashboard',
     icon: 'cil-speedometer',
   },
+  {
+    component: 'CNavItem',
+    name: 'Shoot Counter',
+    to: '/live_maintenance',
+    icon: 'cil-settings',
+  },
+  // {
+  //   component: 'CNavItem',
+  //   name: '',
+  //   to: '/data',
+  //   icon: 'cil-notes',
+  //   items: [
+  //     {
+  //       component: 'CNavItem',
+  //       name: 'Planning',
+  //       to: '/data/planner',
+  //     },
+  //     {
+  //       component: 'CNavItem',
+  //       name: 'List Production',
+  //       to: '/data/production',
+  //     },
+  //   ]
+  // },
   // {
   //   component: 'CNavTitle',
   //   name: 'Production Data',

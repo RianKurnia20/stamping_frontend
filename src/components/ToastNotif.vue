@@ -1,6 +1,6 @@
 <template>
   <div v-if="toastVisible">
-    <CToaster class="p-3" placement="top-end">
+    <CToaster class="p-3" :placement=placement>
       <CToast :autohide="true" :color="color" class="text-white align-items-center" visible :delay="delay">
         <div class="d-flex">
           <CToastBody>{{ body }}</CToastBody>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     color: {
@@ -29,6 +30,10 @@ export default {
     delay:{
       type: Number,
       default: 5000
+    },
+    placement:{
+      type: String,
+      default: 'top-end'
     }
   }
 };

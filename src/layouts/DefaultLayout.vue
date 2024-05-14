@@ -5,7 +5,7 @@
       <AppHeader />
       <div class="body ">
         <CContainer class="px-4" fluid>
-          <router-view />
+            <router-view />
         </CContainer>
       </div>
       <!-- <AppFooter /> -->

@@ -12,6 +12,9 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 
+const props = defineProps({
+  addOption: Object
+})
 const selectedMachine = ref('');
 const machines = ref([]);
 
@@ -26,6 +29,9 @@ const fetchDataMachine = () => {
         label: item.id_machine,
         value: item.id_machine
       }));
+      if (props.addOption) {
+        formattedData.unshift(props.addOption)
+      }
       machines.value = formattedData;
     })
     .catch(error => {
