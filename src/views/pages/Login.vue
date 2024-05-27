@@ -29,6 +29,7 @@
                       type="password"
                       placeholder="Password"
                       floatingLabel="Password"
+                      @keyup.enter="login()"
                     />
                   </CInputGroup>
                   <CRow v-if="errorMessage">
@@ -36,7 +37,7 @@
                   </CRow>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary" class="px-4" @click="login()" > Login </CButton>
+                      <CButton color="primary" class="px-4" @click="login()"> Login </CButton>
                     </CCol>
                   </CRow>
                 </CForm>

@@ -37,7 +37,7 @@
     />   
     <DailyWeeklyWidget 
     :title="totalProduction.total_ok + ' Pin'" 
-    color='primary'
+    color='success'
     data="Good Product"
     />
   </CRow>

@@ -2,7 +2,7 @@
   <CCol>
     <CCard>
       <CCardBody>
-        <v-chart class="chart" :option="option" autoresize />
+        <v-chart class="chart" :option="option" autoresize/>
       </CCardBody>
     </CCard>
   </CCol>
@@ -11,8 +11,6 @@
 <script setup>
 import { use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
-import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide } from 'vue'
 import {
   TitleComponent,
   TooltipComponent,
@@ -33,117 +31,172 @@ use([
   CanvasRenderer,
 ])
 
+import VChart, { THEME_KEY } from 'vue-echarts'
+import { ref, provide, watchEffect, computed } from 'vue'
+
 use([CanvasRenderer, LineChart, BarChart, TitleComponent, TooltipComponent, LegendComponent])
 
 provide(THEME_KEY, 'light')
 
 const props = defineProps({
-  seriesData : Array,
-  chartTitle : String,
-  totalData : Array,
-  xAxisData : Array
+  seriesData: Array,
+  seriesName: Array,
+  xAxis: Array,
+  legend: Array,
+  chartTitle: String,
+  chartData: Object,
+  xAxisName: String,
+  chartType: {
+    type: String,
+    default : 'line'
+  },
+  colorSeries: Array,
+  yAxisIndex:Array
 })
 
+const yAxisIndex = computed(() => {
+    if (!props.yAxisIndex || props.yAxisIndex.length === 0) {
+      return props.seriesName.map(() => 0);
+    }
+    return props.yAxisIndex;
+  });
+
+
+const labelOption = ref({
+  show: true,
+  position: 'top',
+  formatter: '{c}  {name|{a}}',
+  fontSize: 10,
+  rotate:30,
+  rich: {
+    name: {},
+  },
+  color: '#000000', // Mengganti warna tulisan label menjadi putih
+  // fontWeight:'Bold',
+  fontFamily: 'Roboto, sans-serif', // Mengatur jenis font teks label
+  // eslint-disable-next-line no-dupe-keys
+  formatter: function (params) {
+    // Menampilkan label hanya jika nilai data bukan 0
+    if (params.value !== 0 && params.value >= 1000 && params.value < 1000000) {
+      params.value = (params.value / 1000).toFixed(0)
+      return params.value + 'K' // Menampilkan nilai data dalam ribuan
+    } else if (params.value !== 0 && params.value >= 1000000 && params.value < 1000000000) {
+      params.value = (params.value / 1000000).toFixed(0)
+      return params.value + 'M' // Menampilkan nilai data dalam jutaan
+    } else if (params.value !== 0 && params.value >= 1000000000) {
+      params.value = (params.value / 1000000000).toFixed(0)
+      return params.value + 'B' // Menampilkan nilai data dalam miliar
+    } else if (params.value !== 0) {
+      return params.value // Menampilkan nilai data
+    } else {
+      return '' // Menampilkan label kosong jika nilai data adalah 0
+    }
+  },
+})
+
+const yformat = function (value) {
+  var newValue = value
+  if (value >= 1000000000) {
+    newValue = (value / 1000000000).toFixed(0) + 'B'
+  } else if (value >= 1000000) {
+    newValue = (value / 1000000).toFixed(0) + 'M'
+  } else if (value >= 1000) {
+    newValue = (value / 1000).toFixed(0) + 'K'
+  }
+  return newValue
+}
+
 const option = ref({
+  color: props.colorSeries,
   title: {
     text: props.chartTitle,
-    top:0,
-    left:'center'
   },
   tooltip: {
     trigger: 'axis',
     axisPointer: {
       type: 'shadow',
-      crossStyle: {
-        color: '#999'
-      }
-    }
-  },
-  toolbox: {
-    feature: {
-      dataView: { show: true, readOnly: false },
-      magicType: { show: true, type: ['line', 'bar'] },
-      restore: { show: true },
-      saveAsImage: { show: true }
-    }
+    },
   },
   legend: {
-    bottom:0,
-    data: ['Evaporation', 'Precipitation', 'Temperature']
+    data: props.legend,
+    bottom:'0%'
+  },
+  toolbox: {
+    show: true,
+    feature: {
+      dataView: { readOnly: true },
+      magicType: { type: ['line', 'bar'] },
+      saveAsImage: {},
+    },
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '10%',
+    containLabel: true,
   },
   xAxis: [
     {
       type: 'category',
-      data: props.xAxisData,
-      axisPointer: {
-        type: 'shadow'
+      boundaryGap: true,
+      data: props.xAxis,
+      axisLabel:{
+        fontSize:10
       }
-    }
+    },
   ],
   yAxis: [
     {
       type: 'value',
-      name: 'Precipitation',
-      min: 0,
-      max: 250,
-      interval: 50,
       axisLabel: {
-        formatter: '{value} ml'
-      }
-    },
-    {
-      type: 'value',
-      name: 'Temperature',
-      min: 0,
-      max: 25,
-      interval: 5,
-      axisLabel: {
-        formatter: '{value} °C'
-      }
+        formatter: yformat,
+        fontSize: 12,
+      },
+      splitLine: {
+        show: true
+      },
+      name: props.xAxisName,
     }
   ],
-  series: [
-    {
-      name: 'Evaporation',
-      type: 'bar',
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' ml';
-        }
+  series: [],
+})
+
+
+
+const updateChart = () => {
+  // Reset option.value.series
+  option.value.series = []
+  option.value.legend.data = props.legend
+  option.value.title.text = props.chartTitle
+  option.value.xAxis[0].data = props.xAxis
+
+  // Loop through props.seriesData and push each series to option.value.series
+  props.seriesData.forEach((data, index) => {
+    option.value.series.push({
+      name: props.seriesName[index], // Use seriesName prop for series name
+      yAxisIndex: yAxisIndex.value[index],
+      type: props.chartType, // Assuming the type is always 'line'
+      lineStyle: {
+        width: 5,
+        // color: colors[index % colors.length]
       },
-      data: [
-        2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-      ]
-    },
-    {
-      name: 'Precipitation',
-      type: 'bar',
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' ml';
-        }
+      emphasis: {
+        focus: 'series'
       },
-      data: [
-        2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-      ]
-    },
-    {
-      name: 'Temperature',
-      type: 'line',
-      yAxisIndex: 1,
-      tooltip: {
-        valueFormatter: function (value) {
-          return value + ' °C';
-        }
-      },
-      data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-    }
-  ]
+      smooth: true,
+      label: labelOption,
+      data: data, // Use the data from props.seriesData
+    })
+  })
+}
+
+watchEffect(() => {
+  updateChart()
 })
 </script>
 
 <style scoped>
 .chart {
-  height: 32vh;
+  height: 45vh;
 }
 </style>

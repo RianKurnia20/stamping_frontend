@@ -2,7 +2,7 @@
   <CCol>
     <CCard>
       <CCardBody>
-        <v-chart class="chart" :option="option" autoresize />
+        <v-chart class="chart" :option="option" autoresize/>
       </CCardBody>
     </CCard>
   </CCol>
@@ -134,6 +134,9 @@ const option = ref({
       type: 'category',
       boundaryGap: true,
       data: props.xAxis,
+      axisLabel:{
+        fontSize:10
+      }
     },
   ],
   yAxis: [
@@ -142,6 +145,9 @@ const option = ref({
       axisLabel: {
         formatter: yformat,
         fontSize: 12,
+      },
+      splitLine: {
+        show: false
       },
       name: props.xAxisName,
     },

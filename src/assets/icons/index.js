@@ -24,6 +24,7 @@ import {
   cibCcApplePay,
   cibCcAmex,
   cibGmail,
+  
 } from '@coreui/icons'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons'
 import {
@@ -79,10 +80,13 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
+  cilX,
   cilXCircle,
   cilTrash,
   cilPlus,
-  cilFilter
+  cilFilter,
+  cilClock,
+  cilAvTimer
 } from '@coreui/icons'
 
 export const iconsSet = Object.assign(
@@ -140,10 +144,13 @@ export const iconsSet = Object.assign(
     cilUser,
     cilUserFemale,
     cilUserFollow,
+    cilX,
     cilXCircle,
     cilTrash,
     cilPlus,
-    cilFilter
+    cilFilter,
+    cilClock,
+    cilAvTimer
   },
   {
     cifUs,

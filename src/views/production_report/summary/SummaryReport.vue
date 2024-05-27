@@ -18,6 +18,7 @@ import { ref } from 'vue';
 import YearSelector from '../yearly/YearSelector.vue';
 import LayoutGrid from './LayoutGrid.vue'
 
+
 const selectedYear = ref(new Date().getFullYear());
 
 </script>

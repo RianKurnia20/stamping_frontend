@@ -1,80 +1,98 @@
 <template>
   <div class="container-card-monitoring">
     <CCard class="mb-0">
-      <CCardBody class="bg-warning card-body-monitoring">
+      <CCardBody :class="[cardClasses, 'card-body-monitoring']">
         <CRow class="mb-3">
-          <CCol sm="4" class="big-font">STAMPING LINE 10</CCol>
-          <CCol sm="2" class="small-font text-center">
-            <CSpinner size="sm"/> Disconnected</CCol>
-          <CCol sm="6" class="normal-font text-right">153705-1-01 41 / {{ props.item[0] }}</CCol>
+          <CCol sm="4" class="big-font d-flex">{{ props.item[0] }}</CCol>
+          <CCol sm="6" class="normal-font text-end">Kanagata: <span v-for="(value, index) in props.item[5]" :key="index" class="small-font">{{ value }}</span></CCol>
+          <CCol sm="2" class="small-font text-end">
+            <CSpinner size="sm"/> {{ props.item[1] }}
+          </CCol>
         </CRow>
         <CRow class="mb-2">
-          <CCol sm="4" class="normal-font">Status Machine: <span class="small-font">{{ props.item[3] }}</span></CCol>
-          <CCol sm="5" class="normal-font">Output/Target: <span class="small-font">1.000.000/15.000.000 </span></CCol>
-          <CCol sm="3" class="normal-font text-right">Kanagata: <span class="small-font">50662-1</span></CCol>
+          <CCol class="normal-font">
+          {{ props.item[4][0] }}
+          </CCol>
+          <CCol  v-if="props.item[4][1]" class="normal-font" >
+          {{ props.item[4][1] }}
+          </CCol>
         </CRow>
         <CRow class="mb-2">
-          <CCol sm="4" class="normal-font">Stop Cause: <span class="small-font">Cutterpunch NG</span></CCol>
-          <CCol sm="5" class="normal-font">Clocking Stop: <span class="small-font">12 day 21 hour 31 min 11 sec</span></CCol>
-          <CCol sm="3" class="normal-font">Stop Time: <span class="small-font">1.001 min</span></CCol>
+          <CCol sm="4" class="normal-font">Status Machine: <span class="small-font">{{ props.item[2] }}</span></CCol>
+          <CCol sm="5" class="normal-font">Output/Target: <span class="small-font">{{props.item[6].toLocaleString()}} pin / {{ props.item[7].toLocaleString() }} pin</span></CCol>
+          <CCol sm="3" class="normal-font">Kadoritsu: <span class="small-font">{{ props.item[11] }}</span></CCol>
         </CRow>
-        <CRow>
-          <CCol sm="3" class="normal-font">Speed: <span class="small-font">1.000 SPM</span></CCol>
-          <CCol sm="3" class="normal-font">Bekidoritsu: <span class="small-font">40,0%</span></CCol>
-          <CCol sm="3" class="normal-font">Kadoritsu: <span class="small-font">{{ (props.item[1]/props.item[2] * 100).toFixed(1) }}%</span></CCol>
-          <CCol sm="3" class="normal-font">Prod Time: <span class="small-font">1.011 min</span></CCol>
+        <CRow class="mb-2">
+          <CCol sm="4" v-if="props.item[2] == 'STOP'" class="normal-font">Stop Cause: <span class="small-font">{{props.item[3]}}</span></CCol>
+          <!-- <CCol sm="4" v-else class="normal-font">Speed: <span class="small-font">{{props.item[14]}}</span></CCol> -->
+          <CCol sm="4" v-else class="normal-font">Speed: 
+            <span class="small-font" v-if="showSpeed">{{ speedPerMinute/2*10 }} SPM</span>
+          </CCol>
+          <CCol sm="5" v-if="props.item[2] == 'STOP'" class="normal-font">Clocking Stop: <span class="small-font">{{ props.item[8] }}</span></CCol>
+          <CCol sm="5" v-else class="normal-font">Production Time: <span class="small-font">{{props.item[10].toLocaleString()}}</span></CCol>
+          <CCol sm="3" class="normal-font">Bekidoritsu: <span class="small-font">{{props.item[12]}}</span></CCol>
+        </CRow>
+        <CRow class="mb-2">
+          <CCol class="normal-font">Alarm: </CCol>
+          <CCol sm="5" class="normal-font text-right">Dandori Time: <span class="small-font">{{ props.item[15] }}</span></CCol>
+          <CCol sm="3" class="normal-font">Stop Time: <span class="small-font">{{props.item[9].toLocaleString()}}</span></CCol>
+        </CRow>
+        <CRow class="mb-0"> 
+          <CCol v-if="props.item[13].length != 0" style="font-size: .8rem; font-weight: 600; font-family: Arial, Helvetica, sans-serif;">{{props.item[13]}}</CCol>
+          <CCol v-else style="font-size: .8rem; font-weight: 00; font-family: Arial, Helvetica, sans-serif;">[ No Alarm Detected ]</CCol>
         </CRow>
       </CCardBody>
     </CCard>
-    <CContainer class="footer-card-monitoring mb-0">
-      <CRow>
-        <CCol class="small-font judul-footer-card" >Production S1</CCol>
-        <CCol class="xsmall-font judul-footer-card" >Product Name</CCol>
-        <CCol class="small-font judul-footer-card" >Production S2</CCol>
-        <CCol class="xsmall-font judul-footer-card" >Product Name</CCol>
-      </CRow>
-      <CRow>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Output S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Stop Time S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Output S2</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S2</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Stop Time S2</CCol>
-      </CRow>
-      <CRow>
-        <CCol class="xsmall-font text-center">1.200.000 pin</CCol>
-        <CCol class="xsmall-font text-center">1000 pin / 25 ppm</CCol>
-        <CCol class="xsmall-font text-center">30 min</CCol>
-        <CCol class="xsmall-font text-center">1.200.000 pin</CCol>
-        <CCol class="xsmall-font text-center">1000 pin / 25 ppm</CCol>
-        <CCol class="xsmall-font text-center">30 min</CCol>
-      </CRow>
-      <CRow>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Prod Time S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Reject Setting S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S1</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Prod Time S2</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Reject Setting S2</CCol>
-        <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S2</CCol>
-      </CRow>
-      <CRow>
-        <CCol class="xsmall-font text-center">1.200.000 pin</CCol>
-        <CCol class="xsmall-font text-center">1000 pin / 25 ppm</CCol>
-        <CCol class="xsmall-font text-center">30 min</CCol>
-        <CCol class="xsmall-font text-center">1.200.000 pin</CCol>
-        <CCol class="xsmall-font text-center">1000 pin / 25 ppm</CCol>
-        <CCol class="xsmall-font text-center">30 min</CCol>
-      </CRow>
-    </CContainer>
+    <FooterCardDashboard :machine="props.item[0]"/>
   </div>
 </template>
 
 <script setup>
+import { computed, ref, watch } from 'vue';
+import FooterCardDashboard from './FooterCardDashboard.vue';
 
 const props = defineProps({
-  item: Object
+  item: Array
 });
 
+
+const previousOutput = ref(0);
+const differences = ref([]);
+const speedPerMinute = ref(0);
+const showSpeed = ref(false)
+
+
+watch(() => props.item, (newItem) => {
+  if (newItem.length > 6) {
+    const currentOutput = newItem[6];
+    
+    // Calculate the difference
+    const difference = currentOutput - previousOutput.value;
+    previousOutput.value = currentOutput;
+    
+    // Add the difference to the array of differences
+    differences.value.push(difference);
+    
+    // Remove the oldest entry if there are more than 60
+    if (differences.value.length > 60) {
+      differences.value.shift();
+      showSpeed.value = true
+    }
+    
+    // Calculate the speed per minute
+    speedPerMinute.value = differences.value.reduce((acc, val) => acc + val, 0);
+    // console.log(speedPerMinute.value*10/2)
+  }
+});
+
+const cardClasses = computed(() => {
+  const bgClass = {
+    'RUN': 'bg-success',
+    'STOP': 'bg-danger',
+    'SETTING': 'bg-warning'
+  };
+  return bgClass[props.item[2]];
+});
 
 </script>
 
@@ -83,7 +101,6 @@ const props = defineProps({
 .container-card-monitoring{
   border: 0.5px solid black;
   cursor: pointer;
-  
 }
 
 .card-body-monitoring{
@@ -91,12 +108,8 @@ const props = defineProps({
   font-size: 20px;
 }
 
-.footer-card-monitoring{
-  padding: 1rem;
-}
-
 .big-font{
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: 700;
   transform: scaleY(2);
 }
@@ -112,13 +125,8 @@ const props = defineProps({
   font-weight: 400;
 }
 
-.xsmall-font{
-  font-size: 0.8rem;
-  font-weight: 400;
-}
-
-.judul-footer-card{
-  font-weight: 700; 
-  transform: scaleY(1.2);
+.product-font{
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 </style>

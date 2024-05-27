@@ -45,6 +45,16 @@
           v-model="speed"
           class="form-input"
         />
+        <CFormInput
+          type="number"
+          id="cavity"
+          label="Cavity"
+          placeholder="Number of cavities"
+          aria-describedby="exampleFormControlInputHelpInline"
+          size="sm"
+          v-model="cavity"
+          class="form-input"
+        />
       </CForm>
       <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     </CModalBody>
@@ -88,6 +98,7 @@ export default {
     const idKanagata = ref('');
     const idProduct = ref('');
     const speed = ref(0)
+    const cavity = ref(0)
     const errorMessage = ref('');
     const mode = ref('create');
 
@@ -98,6 +109,7 @@ export default {
         idKanagata.value = newValue.id_kanagata;
         idProduct.value = newValue.id_product;
         speed.value = newValue.speed;
+        cavity.value = newValue.cavity
         if (newValue.mode === 'delete') {
           mode.value = 'delete'; // Set the mode to 'delete' when item is provided for delete operation
         } else {
@@ -108,6 +120,7 @@ export default {
         idKanagata.value = '';
         idProduct.value = '';
         speed.value = 0;
+        cavity.value = 0;
         mode.value = 'create'; // Set the mode to 'create' when item is not provided
       }
     });
@@ -116,6 +129,7 @@ export default {
       idKanagata.value=''
       idProduct.value=''
       speed.value=0
+      cavity.value=0
       idMachine.value=''
     }
 
@@ -153,7 +167,8 @@ export default {
           id_machine: idMachine.value,
           id_kanagata: idKanagata.value,
           id_product: idProduct.value,
-          speed: speed.value
+          speed: speed.value,
+          cavity: cavity.value
         });
         props.eventTable.refreshPca = true
         resetForm()
@@ -171,7 +186,8 @@ export default {
           id_machine: idMachine.value,
           id_kanagata: idKanagata.value,
           id_product: idProduct.value,
-          speed: speed.value
+          speed: speed.value,
+          cavity: cavity.value
         });
         props.eventTable.refreshPca = true
         resetForm()
@@ -200,6 +216,7 @@ export default {
       idKanagata,
       idProduct,
       speed,
+      cavity,
       errorMessage,
       mode,
       addPca,

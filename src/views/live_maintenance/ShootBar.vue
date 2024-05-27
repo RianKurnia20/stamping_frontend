@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
   barName:  {
@@ -56,22 +56,24 @@ const props = defineProps({
 
 })
 const colorBar = ref('dark')
-const barValue = ref(0)
-const barStatus = ref('bg-light')
 
-watch(() => props.shootCount, (newValue) => {
-  if(newValue){
-    barValue.value = parseFloat((props.shootCount/props.barTarget2*100).toFixed(1))
-    if(barValue.value < 70){
-      barStatus.value = 'bg-success'
-    }
-    else if(barValue.value > 70 && barValue.value < 90){
-      barStatus.value = 'bg-warning'
-    }else{
-      barStatus.value = 'bg-danger'
-    }
-  }
-})
+const barValue = computed(() => {
+  return props.barTarget2 ? parseFloat((props.shootCount / props.barTarget2 * 100).toFixed(1)) : 0;
+});
+
+const barStatus = computed(() => {
+  if (props.shootCount < props.barTarget1) {
+    return 'bg-success';
+  } 
+  if (props.shootCount < props.barTarget2) {
+    return 'bg-warning';
+  } 
+  if (props.shootCount === props.barTarget1 || props.shootCount === props.barTarget2) {
+    return 'bg-light';
+  } 
+  return 'bg-danger';
+});
+
 
 </script>
 

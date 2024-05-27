@@ -72,15 +72,17 @@
           </CCard>
         </CCol>
       </CRow>
+      <ToastNotif :color="toastColor" :body="toastBody" :toastVisible="toastVisible" placement="middle" :dissmisible="false"/>
     </CContainer>
   </div>
 </template>
 
-<script>
+<!-- <script>
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import hrs from '@/assets/images/hrs.png'
+import ToastNotif from '@/components/ToastNotif.vue'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -116,8 +118,9 @@ export default {
           password : password.value
         })
         console.log(response.data)
-        router.push('/login')
-
+        setTimeout(() => {
+          toLogin();
+        }, 3000);
       } catch (error) {
         if(Array.isArray(error.response.data.message)){
           errorMessage.value = error.response.data.message[0].msg
@@ -125,7 +128,6 @@ export default {
         else{
           errorMessage.value = error.response.data.message
         }
-
         console.error(error)
       }
     }
@@ -143,12 +145,81 @@ export default {
       password,
       repeatPassword,
       validateForm,
-      hrs
+      hrs,
     };
   }
 }
 
+</script> -->
+
+<script setup>
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import hrs from '@/assets/images/hrs.png';
+import ToastNotif from '@/components/ToastNotif.vue';
+
+const username = ref('');
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
+const router = useRouter();
+const repeatPassword = ref('');
+const validateForm = ref(null);
+const toastColor = ref('')
+const toastBody = ref('')
+const toastVisible = ref(false)
+
+const newUser = async (event) => {
+  if (password.value !== repeatPassword.value) {
+    errorMessage.value = "Password and repeat password do not match.";
+    return;
+  }
+
+  const form = event.currentTarget;
+  console.log(form);
+  if (form.checkValidity() === false) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  validateForm.value = true;
+
+  try {
+    const response = await axios.post('http://192.168.148.125:5000/users/signup', {
+      username: username.value,
+      email: email.value,
+      password: password.value
+    });
+    console.log(response.data);
+    showToast('success', 'Registration success wait we will redirect you to login page')
+    setTimeout(() => {
+      toLogin();
+    }, 3000);
+  } catch (error) {
+    if (Array.isArray(error.response.data.message)) {
+      errorMessage.value = error.response.data.message[0].msg;
+    } else {
+      errorMessage.value = error.response.data.message;
+    }
+    console.error(error);
+  }
+};
+
+const toLogin = () => {
+  router.push('/login');
+};
+
+const showToast = (color, body) => {
+  toastVisible.value = true
+  toastColor.value= color
+  toastBody.value= body
+  setTimeout(() => {
+    toastVisible.value = false;
+  }, 3000);
+}
 </script>
+
 
 <style scoped>
 .regist-button{

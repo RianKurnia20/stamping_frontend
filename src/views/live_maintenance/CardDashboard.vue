@@ -1,8 +1,8 @@
 <template>
   <CCard class="border-dark">
     <CCardBody>
-      <CRow class="big-font">
-        <CCol>
+      <CRow>
+        <CCol class="big-font">
           {{ cardName }}
         </CCol>
       </CRow>
@@ -30,6 +30,12 @@ console.log(props.item)
 <style scoped>
 .big-font{
   font-size: 1.8rem;
+  font-weight: 600;
+  font-family: Oswald;
+}
+
+.normal-font{
+  font-size: 1rem;
   font-weight: 600;
   font-family: Oswald;
 }
