@@ -52,6 +52,7 @@
           ref([
               { field: 'id_product', title: 'DP Code', isUnique: true },
               { field: 'name', title: 'Product Name' },
+              { field: 'price', title: 'Price (Rp)' },
               { field: 'created_at', title: 'Created At' },
               { field: 'updated_at', title: 'Updated At' },
               { field: 'actions', title: 'Actions', sort:false },

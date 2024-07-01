@@ -41,6 +41,16 @@
           v-model="productName"
           class="form-input"
         />
+        <CFormInput
+          type="text"
+          id="price"
+          label="Price (Rp)"
+          placeholder="Price per pin"
+          aria-describedby="exampleFormControlInputHelpInline"
+          size="sm"
+          v-model="priceProduct"
+          class="form-input"
+        />
       </CForm>
       <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     </CModalBody>
@@ -79,6 +89,7 @@ export default {
     const productName = ref('');
     const errorMessage = ref('');
     const newIdProduct = ref('')
+    const priceProduct = ref(0)
     // const oldIdProduct = ref('')
     const mode = ref('create'); // Default mode is 'create'
 
@@ -87,6 +98,7 @@ export default {
       if (newValue) {
         idProduct.value = newValue.id_product;
         productName.value = newValue.name;
+        priceProduct.value = newValue.price;
         if (newValue.mode === 'delete') {
           mode.value = 'delete'; // Set the mode to 'delete' when item is provided for delete operation
         } else {
@@ -95,6 +107,7 @@ export default {
       } else {
         idProduct.value = '';
         productName.value = '';
+        priceProduct.value = 0;
         mode.value = 'create'; // Set the mode to 'create' when item is not provided
       }
   });
@@ -103,6 +116,7 @@ export default {
       idProduct.value = '';
       productName.value = '';
       newIdProduct.value= '';
+      priceProduct.value = 0;
     }
 
     const addProduct = async () => {
@@ -111,6 +125,7 @@ export default {
         const response = await axios.post('http://192.168.148.125:5000/product', {
           id_product: idProduct.value,
           name: productName.value,
+          price: priceProduct.value
         });
         // eslint-disable-next-line vue/no-mutating-props
         props.eventTable.refreshProduct = true;
@@ -126,6 +141,7 @@ export default {
         const response = await axios.patch(`http://192.168.148.125:5000/product/${idProduct.value}`, {
           id_product : newIdProduct.value,
           name: productName.value,
+          price: priceProduct.value
         });
         props.eventTable.refreshProduct = true;
         resetForm()
@@ -152,6 +168,7 @@ export default {
     return { 
       idProduct,
       newIdProduct,
+      priceProduct,
       productName,
       errorMessage,
       mode,

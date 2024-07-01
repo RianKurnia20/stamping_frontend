@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { CRow, CCol, CCard, CCardBody } from '@coreui/vue'
+
 </script>
 
 <style scoped>

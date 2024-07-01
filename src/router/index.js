@@ -58,7 +58,18 @@ const routes = [
             component: () => import('@/views/production_plan/ProductionPlan.vue'),
             meta: {
               requiresAuth: true,
-              roles: ['admin','staff','viewer']
+              roles: ['admin']
+            },
+            beforeEnter: authMiddleware,
+          },
+          {
+            path : '/data/machine_history',
+            name : 'Machine History',
+            component: () => import('@/views/machine_history/MachineHistory.vue'),
+            meta: {
+              requiresAuth: true,
+              // roles: ['admin','staff','viewer']
+              roles: ['admin']
             },
             beforeEnter: authMiddleware,
           },
@@ -182,41 +193,24 @@ const routes = [
     ],
   },
   {
-    path: '/pages',
-    redirect: '/pages/404',
-    name: 'Pages',
-    component: {
-      render() {
-        return h(resolveComponent('router-view'))
-      },
-    },
-    children: [
-      {
-        path: '404',
-        name: 'Page404',
-        component: () => import('@/views/pages/Page404'),
-      },
-      {
-        path: '500',
-        name: 'Page500',
-        component: () => import('@/views/pages/Page500'),
-      },
-      {
-        path: 'register',
-        name: 'Register',
-        component: () => import('@/views/pages/Register'),
-      },
-    ],
-  },
-  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import('@/views/pages/Page403'),
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/pages/Register'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/pages/Login'),
+  },
+  {
+    path: '/:pathMatch(.*)*',  // This is the wildcard route
+    name: 'NotFound',
+    component: () => import('@/views/pages/Page404'),  // Redirect to your 404 component
   },
 ]
 
@@ -229,7 +223,5 @@ const router = createRouter({
     return { top: 0 }
   },
 })
-
-// router.beforeEach(authMiddleware)
 
 export default router

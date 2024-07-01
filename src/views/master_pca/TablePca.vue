@@ -55,7 +55,6 @@
               { field: 'id_product', title: 'DP Code' },
               { field: 'name', title: 'Product Name' },
               { field: 'speed', title: 'SPM' },
-              { field: 'cavity', title: 'Cavity' },
               { field: 'created_at', title: 'Created At' },
               { field: 'updated_at', title: 'Updated At' },
               { field: 'actions', title: 'Actions', sort:false },

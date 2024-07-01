@@ -25,8 +25,7 @@
 
       const instance = getCurrentInstance();
       const search = ref('')
-      const props = defineProps(['userRole', 'eventTable'])
-
+      const props = defineProps(['userRole', 'eventTable', 'selector'])
       onMounted(() => {
         fetchData();
       });
@@ -38,6 +37,12 @@
           props.eventTable.refreshProduction = false;
           instance.emit('close')
           instance.emit('notif')
+        }
+      });
+
+      watch(() => props.selector, (newValue) => {
+        if (newValue) {
+          fetchData();
         }
       });
 
@@ -62,23 +67,29 @@
               { field: 'production_time', title: 'Production Time' },
               { field: 'stop_time', title: 'Stop Time' },
               { field: 'dandori_time', title: 'Dandori Time' },
+              { field: 'kadoritsu', title: 'Kadoritsu' },
               { field: 'actions', title: 'Actions', sort:false },
           ]) || [];
       
       const fetchData = () => {
-        axios.get('http://192.168.148.125:5000/productions')
+        axios.get(`http://192.168.148.125:5000/productions/filter?id_machine=${props.selector.selectedMachine}&year=${props.selector.selectedMonth.year}&month=${props.selector.selectedMonth.month + 1}`)
           .then(response => {
             const formattedData = response.data.data.map(item => ({
               ...item,
               date: formatDate(item.date),
+              ok: item.ok.toLocaleString(),
+              reject_setting: item.reject_setting.toLocaleString(),
+              ng:item.ng.toLocaleString(),
+              dummy:item.dummy.toLocaleString()
             }));
+            // console.log(formattedData)
             data.value = formattedData;
             rows.value = formattedData; // Assign formatted data to rows
             loading.value = false; // Update loading status after data is fetched
             pageSize.value = formattedData.length
           })
           .catch(error => {
-            console.log('Error fetching data:', error);
+            console.error('Error fetching data:', error);
             loading.value = false; // Update loading status in case of error
           });
       };

@@ -51,5 +51,4 @@ const authMiddleware = async (to, from, next) => {
   }
 };
 
-
 export default authMiddleware;

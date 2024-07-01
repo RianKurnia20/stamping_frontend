@@ -2,9 +2,9 @@
   <CCol style="margin: .5rem; padding: .6rem; border-radius: .4rem;" :class="barStatus">
     <CRow class="bar-name">
       <CCol class="text-center" style="font-size: large; margin-bottom: .5rem; font-family: Arial, Helvetica, sans-serif; font-weight: 700;">
-        {{ barName }}
+        {{ barName }} <span v-if="barTarget1 === 0 && barTarget2 === 0"> (Not Used) </span>
       </CCol>
-    </CRow>  
+    </CRow>
     <CRow>
       <CCol class="bar-name" style="font-weight: 700;">
         Actual Shoot
@@ -29,7 +29,15 @@
         {{ barTarget2.toLocaleString() }}
       </CCol>
     </CRow>
-    <CProgress :height="25"  variant='striped' animated :color="colorBar" :value="barValue">{{ barValue }}%</CProgress>
+    <CProgress :height="25"  variant='striped' animated :color="colorBar" :value="barValue" class="mb-1">{{ barValue }}%</CProgress>
+    <CRow v-if="props.toggleIcon">
+      <CCol class="bar-name" style="font-weight: 700;">
+        Last Maintenance Time
+        <CListGroup flush >
+          <CListGroupItem color="success" style=" font-weight: 400; text-align: center;" >{{props.lastMaintenance}}</CListGroupItem>
+        </CListGroup>
+      </CCol>
+    </CRow>
   </CCol>
 </template>
 
@@ -53,6 +61,10 @@ const props = defineProps({
     type:Number,
     default:0
   },
+  toggleIcon:Boolean,
+  lastMaintenance:{
+    type:String
+  }
 
 })
 const colorBar = ref('dark')
@@ -68,7 +80,7 @@ const barStatus = computed(() => {
   if (props.shootCount < props.barTarget2) {
     return 'bg-warning';
   } 
-  if (props.shootCount === props.barTarget1 || props.shootCount === props.barTarget2) {
+  if (props.barTarget1 === 0 && props.barTarget2 === 0) {
     return 'bg-light';
   } 
   return 'bg-danger';

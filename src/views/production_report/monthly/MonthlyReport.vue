@@ -20,7 +20,7 @@
   <CRow>
     <PieChart chartTitle="Dummy" unit="Pin" :seriesData="formatData(dataProduction, 'dummy')" :totalData="Number(totalProduction.dummy).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
     <PieChart chartTitle="Reject Setting" unit="Pin" :seriesData="formatData(dataProduction, 'reject_setting')" :totalData="Number(totalProduction.reject_setting).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
-    <PieChart chartTitle="Sales" unit="Rp." :seriesData="formatData(dataProduction, 'ok')" :totalData="Number(totalProduction.ok).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
+    <PieChart chartTitle="Sales" unit="Rp." :seriesData="formatData(dataProduction, 'sales')" :totalData="Number(totalProduction.sales).toLocaleString()" :source="[selectedMachine, selectedMonth]"/>
   </CRow>
 </template>
 
@@ -40,7 +40,8 @@ const totalProduction = ref({
     "rip": "0",
     "reject_setting": "0",
     "dummy": "0",
-    "stop_time": "0"
+    "stop_time": "0", 
+    "sales" : "0"
 })
 
 watch([selectedMachine, selectedMonth], ([newMachineValue, newMonthValue]) => {
@@ -87,7 +88,8 @@ const getTotalProductionByMonth = async (selectedMonth, selectedMachine) => {
         "rip": "0",
         "reject_setting": "0",
         "dummy": "0",
-        "stop_time": "0"
+        "stop_time": "0",
+        "sales":"0"
       }
     }
     

@@ -1,68 +1,74 @@
 <template>
-  <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
-    <CContainer>
-      <CRow class="justify-content-center">
-        <CCol :md="8">
-          <CCardGroup>
-            <CCard class="p-4">
-              <CCardBody>
-                <CForm>
-                  <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="58" style="margin-bottom: .5rem;"/> 
-                  <p class="text-body-secondary">Sign In to your account</p>
-                  <CInputGroup class="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon="cil-user" />
-                    </CInputGroupText>
-                    <CFormInput
-                      v-model="email"
-                      type="email"
-                      placeholder="E-mail"
-                      floatingLabel="E-mail"
-                    />
-                  </CInputGroup>
-                  <CInputGroup class="mb-4">
-                    <CInputGroupText>
-                      <CIcon icon="cil-lock-locked" />
-                    </CInputGroupText>
-                    <CFormInput
-                      v-model="password"
-                      type="password"
-                      placeholder="Password"
-                      floatingLabel="Password"
-                      @keyup.enter="login()"
-                    />
-                  </CInputGroup>
-                  <CRow v-if="errorMessage">
-                    <p class="error-message">{{ errorMessage }}</p>
-                  </CRow>
-                  <CRow>
-                    <CCol :xs="6">
-                      <CButton color="primary" class="px-4" @click="login()"> Login </CButton>
-                    </CCol>
-                  </CRow>
-                </CForm>
-              </CCardBody>
-            </CCard>
-            <CCard class="text-white bg-primary py-5" style="width: 44%">
-              <CCardBody class="text-center">
-                <div>
-                  <h1>Sign up</h1>
-                  <p>
-                    Tell developer for new access account to this site 
-                    or hit button bellow to register by your self.
-                  </p>
-                  <router-link to="/pages/register">
-                    <CButton color="light" variant="outline" class="mt-3 custom-button">
-                      Register Now!
-                    </CButton>
-                  </router-link>
-                </div>
-              </CCardBody>
-            </CCard>
-          </CCardGroup>
-        </CCol>
-      </CRow>
-    </CContainer>
+  <div class="login-page">
+    <video autoplay muted loop id="bg-video">
+      <source src="@/assets/videos/register.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+    <div class="login-content min-vh-100 d-flex flex-row align-items-center">
+      <CContainer>
+        <CRow class="justify-content-center">
+          <CCol :md="8">
+            <CCardGroup>
+              <CCard class="p-4">
+                <CCardBody>
+                  <CForm>
+                    <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="58" style="margin-bottom: .5rem;"/>
+                    <p class="text-body-secondary">Sign In to your account</p>
+                    <CInputGroup class="mb-3">
+                      <CInputGroupText>
+                        <CIcon icon="cil-user" />
+                      </CInputGroupText>
+                      <CFormInput
+                        v-model="email"
+                        type="email"
+                        placeholder="E-mail"
+                        floatingLabel="E-mail"
+                      />
+                    </CInputGroup>
+                    <CInputGroup class="mb-4">
+                      <CInputGroupText>
+                        <CIcon icon="cil-lock-locked" />
+                      </CInputGroupText>
+                      <CFormInput
+                        v-model="password"
+                        type="password"
+                        placeholder="Password"
+                        floatingLabel="Password"
+                        @keyup.enter="login()"
+                      />
+                    </CInputGroup>
+                    <CRow v-if="errorMessage">
+                      <p class="error-message">{{ errorMessage }}</p>
+                    </CRow>
+                    <CRow>
+                      <CCol :xs="6">
+                        <CButton color="primary" class="px-4" @click="login()"> Login </CButton>
+                      </CCol>
+                    </CRow>
+                  </CForm>
+                </CCardBody>
+              </CCard>
+              <CCard class="text-white bg-primary py-5" style="width: 44%">
+                <CCardBody class="text-center">
+                  <div>
+                    <h1>Sign up</h1>
+                    <p>
+                      Tell developer for new access account to this site 
+                      or hit button bellow to register by your self.
+                    </p>
+                    <router-link to="/register">
+                      <CButton color="light" variant="outline" class="mt-3 custom-button">
+                        Register Now!
+                      </CButton>
+                    </router-link>
+                  </div>
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
+          </CCol>
+        </CRow>
+      </CContainer>
+    </div>
   </div>
 </template>
 
@@ -90,7 +96,7 @@ export default {
 
           // Handle respons dari API jika login berhasil
           // this.token = response.data.token
-          Cookies.set('jwt_token', response.data.token, { expires: 1 });
+          Cookies.set('jwt_token', response.data.token, {expires: 4});
           // Contoh: redirect ke halaman dashboard jika login berhasil
           router.push('/live_dashboard');
         } catch (error) {
@@ -111,9 +117,37 @@ export default {
 </script>
 
 <style scoped>
-.error-message{
+.bg-login{
+  background-image: url('@/assets/images/waves.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.login-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.login-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.error-message {
   font-size: small;
   color: red;
 }
-
 </style>

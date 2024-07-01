@@ -8,35 +8,35 @@
     </CRow>
     <CRow>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Output S1</CCol>
-      <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S1</CCol>
+      <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S1</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Stop Time S1</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Output S2</CCol>
-      <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S2</CCol>
+      <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S2</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Stop Time S2</CCol>
     </CRow>
     <CRow v-if="shift1 && shift2">
       <CCol class="xsmall-font text-center">{{shift1.ok.toLocaleString()}} pin</CCol>
-      <CCol class="xsmall-font text-center">{{shift1.ng.toLocaleString()}} pin / 25 ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift1.dandori_time.toLocaleString()}} min</CCol>
       <CCol class="xsmall-font text-center">{{shift1.stop_time.toLocaleString()}} min</CCol>
       <CCol class="xsmall-font text-center">{{shift2.ok.toLocaleString()}} pin</CCol>
-      <CCol class="xsmall-font text-center">{{shift2.ng.toLocaleString()}} pin / 25 ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift2.dandori_time.toLocaleString()}} min</CCol>
       <CCol class="xsmall-font text-center">{{shift2.stop_time.toLocaleString()}} min</CCol>
     </CRow>
     <CRow>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Dummy S1</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Reject Setting S1</CCol>
-      <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S1</CCol>
+      <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S1</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Dummy S2</CCol>
       <CCol class="xsmall-font text-center" style="font-weight: 700;">Reject Setting S2</CCol>
-      <CCol class="xsmall-font text-center" style="font-weight: 700;">Dandori Time S2</CCol>
+      <CCol class="xsmall-font text-center" style="font-weight: 700;">RIP S2</CCol>
     </CRow>
     <CRow v-if="shift1 && shift2">
-      <CCol class="xsmall-font text-center">{{shift1.dummy.toLocaleString()}} pin / 25 ppm</CCol>
-      <CCol class="xsmall-font text-center">{{shift1.reject_setting.toLocaleString()}} pin / 25 ppm</CCol>
-      <CCol class="xsmall-font text-center">{{shift1.dandori_time.toLocaleString()}} min</CCol>
-      <CCol class="xsmall-font text-center">{{shift2.dummy.toLocaleString()}} pin / 25 ppm</CCol>
-      <CCol class="xsmall-font text-center">{{shift2.reject_setting.toLocaleString()}} pin / 25 ppm</CCol>
-      <CCol class="xsmall-font text-center">{{shift2.dandori_time.toLocaleString()}} min</CCol>
+      <CCol class="xsmall-font text-center">{{shift1.dummy.toLocaleString()}} pin <br> {{ calculatePPM(shift1.dummy, shift1.ok) }} ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift1.reject_setting.toLocaleString()}} pin <br> {{ calculatePPM(shift1.reject_setting, shift1.ok) }} ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift1.ng.toLocaleString()}} pin <br> {{calculatePPM(shift1.ng, shift1.ok)}} ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift2.dummy.toLocaleString()}} pin <br> {{ calculatePPM(shift2.dummy, shift2.ok) }} ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift2.reject_setting.toLocaleString()}} pin <br> {{ calculatePPM(shift2.reject_setting, shift2.ok) }} ppm</CCol>
+      <CCol class="xsmall-font text-center">{{shift2.ng.toLocaleString()}} pin <br> {{calculatePPM(shift2.ng, shift2.ok)}} ppm</CCol>
     </CRow>
   </CContainer>
 </template>
@@ -55,8 +55,8 @@ const shift2 = ref(null)
 onMounted( async () => {
   shift1.value = await lastProduction(props.machine, 1)
   shift2.value = await lastProduction(props.machine, 2)
-  console.log(shift1.value)
-  console.log(shift2.value)
+  // console.log(shift1.value)
+  // console.log(shift2.value)
 })
 
 const lastProduction = async (machine, shift) => {
@@ -67,6 +67,17 @@ const lastProduction = async (machine, shift) => {
   } catch (error) {
     console.error('Error fetching production data:', error);
   }
+}
+
+const calculatePPM = (a,b) => {
+  let result = (a / (a + b) * 1000000);
+  if(isNaN(result) || !isFinite(result)){
+    result = 0
+  }else{
+    result = result.toFixed(1);
+  }
+  console.log(result)
+  return Number(result).toLocaleString();
 }
 
 </script>

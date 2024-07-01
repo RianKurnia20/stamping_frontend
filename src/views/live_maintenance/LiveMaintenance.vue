@@ -1,8 +1,5 @@
 <template>
   <div class="row">
-    <!-- <div class="mb-3" v-for="(item, index) in data" :key="index">
-      <CardDashboard :item="item"/>
-    </div> -->
     <div class="mb-3" v-for="(machineData, machineName) in data" :key="machineName">
       <CardDashboard :item="machineData" :cardName="machineName"/>
     </div>

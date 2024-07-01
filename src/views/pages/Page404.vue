@@ -3,26 +3,21 @@
     <CContainer>
       <CRow class="justify-content-center">
         <CCol :md="6">
-          <div class="clearfix">
-            <h1 class="float-start display-3 me-4">404</h1>
-            <h4 class="pt-3">Oops! You're lost.</h4>
+          <span class="clearfix">
+            <h1>403</h1>
+            <h4>Oops! You're lost.</h4>
             <p class="text-body-secondary float-start">
-              The page you are looking for was not found.
+              The page you are looking for was not found. There is no information here, please go back
             </p>
-          </div>
-          <!-- <CInputGroup class="input-prepend">
-            <CInputGroupText>
-              <CIcon icon="cil-magnifying-glass" />
-            </CInputGroupText>
-            <CFormInput type="text" placeholder="What are you looking for?" />
-            <CButton color="info">Search</CButton>
-          </CInputGroup> -->
+          </span>
+          <router-link to="/live_dashboard">
+            <CButton color="primary">Back to dashboard</CButton>
+          </router-link>
         </CCol>
       </CRow>
     </CContainer>
   </div>
 </template>
-
 <script>
 export default {
   name: 'Page404',

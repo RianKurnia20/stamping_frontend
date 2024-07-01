@@ -2,8 +2,8 @@
   <VueDatePicker 
     v-model="date" 
     range
-    max-range="60" 
-    min-range="6" 
+    :max-range="props.maxRange" 
+    :min-range="props.minRange" 
     :enable-time-picker="false" 
     vertical 
     placeholder="Select Date Here"
@@ -13,6 +13,18 @@
 
 <script setup>
 import { ref } from 'vue';
+
+const props = defineProps({
+  minRange:{
+    type:String,
+    default:'6'
+  },
+  maxRange:{
+    type:String,
+    default:'60'
+  }
+})
+
 
 const currentDate = new Date();
 const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() , 2);

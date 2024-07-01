@@ -9,7 +9,7 @@
       </CCol>
       <CCol xs="1" >
         <CButton :disabled="userRole ==='viewer'"  color="success" variant="outline" @click="openModal(null)">
-            New Plan
+          <CIcon icon="cilPlus" size="sm"/>  Plan
         </CButton>
       </CCol>
     </CRow>

@@ -58,6 +58,7 @@
       const cols =
           ref([
               { field: 'id_kanagata', title: 'ID Kanagata', isUnique: true },
+              { field: 'cavity', title: 'Cavity' },
               { field: 'actual_shot', title: 'Actual Shot' },
               { field: 'limit_shot', title: 'Limit Shot' },
               { field: 'created_at', title: 'Created At' },

@@ -4,8 +4,8 @@
     <div class="wrapper d-flex flex-column min-vh-100">
       <AppHeader />
       <div class="body">
-        <CContainer class="px-4" fluid>
-            <router-view />
+        <CContainer class="px-4" fluid>       
+          <router-view />
         </CContainer>
       </div>
       <!-- <AppFooter /> -->
@@ -15,17 +15,18 @@
 
 <script>
 import { CContainer } from '@coreui/vue'
-import AppFooter from '@/components/AppFooter.vue'
+// import AppFooter from '@/components/AppFooter.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 
 export default {
   name: 'DefaultLayout',
   components: {
-    AppFooter,
+    // AppFooter,
     AppHeader,
     AppSidebar,
     CContainer,
   },
 }
 </script>
+

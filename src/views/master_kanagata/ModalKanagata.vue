@@ -43,6 +43,16 @@
           v-model="limitShot"
           class="form-input"
         />
+        <CFormInput
+          type="number"
+          id="cavity"
+          label="Cavity"
+          placeholder="Number of cavities"
+          aria-describedby="exampleFormControlInputHelpInline"
+          size="sm"
+          v-model="cavity"
+          class="form-input"
+        />
       </CForm>
       <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
     </CModalBody>
@@ -80,6 +90,7 @@ export default {
     const actualShot = ref(0);
     const limitShot = ref(0);
     const errorMessage = ref('');
+    const cavity = ref(0)
     const mode = ref('create'); // Default mode is 'create'
 
     watch(() => props.item, (newValue) => {
@@ -87,6 +98,7 @@ export default {
         idKanagata.value = newValue.id_kanagata;
         actualShot.value = newValue.actual_shot;
         limitShot.value = newValue.limit_shot;
+        cavity.value = newValue.cavity;
         if (newValue.mode === 'delete') {
           mode.value = 'delete'; // Set the mode to 'delete' when item is provided for delete operation
         } else {
@@ -96,6 +108,7 @@ export default {
         idKanagata.value = '';
         actualShot.value = 0;
         limitShot.value = 0;
+        cavity.value = 0;
         mode.value = 'create'; // Set the mode to 'create' when item is not provided
       }
     });
@@ -104,6 +117,7 @@ export default {
       idKanagata.value = '';
       actualShot.value = 0;
       limitShot.value= 0;
+      cavity.value=0
     }
 
     const addKanagata = async () => {
@@ -111,7 +125,8 @@ export default {
         const response = await axios.post('http://192.168.148.125:5000/kanagata', {
           id_kanagata: idKanagata.value,
           actual_shot: actualShot.value,
-          limit_shot: limitShot.value
+          limit_shot: limitShot.value,
+          cavity: cavity.value
         });
         props.eventTable.refreshKanagata = true;
         resetForm()
@@ -128,7 +143,8 @@ export default {
         const response = await axios.patch(`http://192.168.148.125:5000/kanagata/${idKanagata.value}`, {
           id_kanagata: idKanagata.value,
           actual_shot: actualShot.value,
-          limit_shot: limitShot.value
+          limit_shot: limitShot.value,
+          cavity: cavity.value
         });
         props.eventTable.refreshKanagata = true;
         resetForm()
@@ -154,6 +170,7 @@ export default {
       limitShot,
       errorMessage,
       mode,
+      cavity,
       addKanagata,
       updateKanagata,
       deleteKanagata

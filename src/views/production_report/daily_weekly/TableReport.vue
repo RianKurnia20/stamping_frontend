@@ -1,5 +1,5 @@
   <template>
-    <CCol >
+    <CCol>
       <CAccordion :active-item-key="1" always-open>
         <CAccordionItem :item-key="1">
           <CAccordionHeader>

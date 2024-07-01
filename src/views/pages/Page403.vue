@@ -4,10 +4,10 @@
       <CRow class="justify-content-center">
         <CCol :md="6">
           <span class="clearfix">
-            <h1 class="float-start display-3 me-4">403</h1>
-            <h4 class="pt-3">Guard, we have a problem!</h4>
+            <h1>403</h1>
+            <h4>Guard, we have a problem!</h4>
             <p class="text-body-secondary float-start">
-              It's Guarded by an Authorized Personnel Only. Please contact
+              It's Guarded by an Authorized Personnel Only. Please contact developer for grant an access
             </p>
           </span>
           <router-link to="/live_dashboard">

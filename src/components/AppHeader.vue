@@ -7,9 +7,6 @@
       <CHeaderNav class="ms-auto">
         <CNavItem>
           <ClockCount/>
-          <!-- <CNavLink href="#">
-            <CIcon icon="cil-envelope-open" size="lg" />
-          </CNavLink> -->
         </CNavItem> 
       </CHeaderNav> 
       <CHeaderNav>
@@ -55,6 +52,12 @@
         <li class="nav-item py-1">
           <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
         </li>
+        <div style=" display: flex; text-align: center; align-items: center;" class="rounded-rectangle" :style="{backgroundColor : backgroundColor}">
+          {{ capitalizeEachWord(role) }}
+        </div>
+        <li class="nav-item py-1">
+          <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+        </li>
         <AppHeaderDropdownAccnt />
       </CHeaderNav>
     </CContainer>
@@ -65,11 +68,13 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useColorModes } from '@coreui/vue'
 import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
 import ClockCount from './ClockCount'
+import checkRoles from '../middleware/CheckRoles'
+
 export default {
   name: 'AppHeader',
   components: {
@@ -80,8 +85,22 @@ export default {
   setup() {
     const headerClassNames = ref('mb-4 p-0')
     const { colorMode, setColorMode } = useColorModes('coreui-free-vue-admin-template-theme')
+    const role = ref('')
+    const colorRole = {
+      'admin' : '#008585',
+      'viewer' : '#c45161',
+      'staff' : '#808080'
+    }
 
-    onMounted(() => {
+    const capitalizeEachWord = (str) => {
+      return str.replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+    
+    const backgroundColor = computed(() => {
+      return colorRole[role.value] ;
+    });
+
+    onMounted(async () => {
       document.addEventListener('scroll', () => {
         if (document.documentElement.scrollTop > 0) {
           headerClassNames.value = 'mb-4 p-0 shadow-sm'
@@ -89,13 +108,36 @@ export default {
           headerClassNames.value = 'mb-4 p-0'
         }
       })
+      try {
+        role.value = await checkRoles();
+        console.log(role.value);
+      } catch (error) {
+        console.error(error);
+      }
     })
+
+
 
     return {
       headerClassNames,
       colorMode,
       setColorMode,
+      role,
+      backgroundColor,
+      capitalizeEachWord
     }
   },
 }
 </script>
+
+<style scoped>
+  .rounded-rectangle {
+    display: inline-block;
+    color: white;
+    padding: 12px 10px; 
+    border-radius: 5px;
+    font-size: 11px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+</style>

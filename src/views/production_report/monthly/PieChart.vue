@@ -151,7 +151,7 @@ const updateChart = () => {
   option.value.series[0].data = props.seriesData
   option.value.title.text = props.chartTitle
   if(props.unit === 'Rp.'){
-    option.value.graphic[0].style.text = 'Total : ' + props.unit + props.totalData
+    option.value.graphic[0].style.text = 'Total : ' + props.unit + ' ' + props.totalData
   }else{
     option.value.graphic[0].style.text = 'Total : ' + props.totalData +' '+ props.unit
   }

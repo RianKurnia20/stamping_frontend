@@ -135,6 +135,11 @@ export default [
         name: 'List Production',
         to: '/data/production',
       },
+      {
+        component: 'CNavItem',
+        name: 'Machine History',
+        to: '/data/machine_history',
+      },
     ]
   },
   {
