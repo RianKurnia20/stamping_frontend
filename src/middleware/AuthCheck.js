@@ -8,7 +8,7 @@ const authMiddleware = async (to, from, next) => {
     try {
       // Ambil token dari Cookies
       const token = Cookies.get('jwt_token');
-
+      
       if(token === undefined){
         next('/login')
         return

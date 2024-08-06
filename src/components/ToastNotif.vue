@@ -3,7 +3,11 @@
     <CToaster class="p-3" :placement=placement>
       <CToast :autohide="true" :color="color" class="text-white align-items-center" visible :delay="delay">
         <div class="d-flex">
-          <CToastBody>{{ body }}</CToastBody>
+          <CToastBody>
+              {{ body }}
+            <slot name="spinner" >
+            </slot>
+          </CToastBody>
           <CToastClose class="me-2 m-auto" white />
         </div>
       </CToast>

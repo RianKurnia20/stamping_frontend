@@ -50,9 +50,8 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  source : Array
+  source : Array,
 })
-
 
 const option = ref({
   color:['rgb(71, 147, 175)','rgb(255, 196, 112)','rgb(221, 87, 70)','rgb(139, 50, 44)','rgb(91, 188, 255)','rgb(126, 161, 255)'],
@@ -152,7 +151,10 @@ const updateChart = () => {
   option.value.title.text = props.chartTitle
   if(props.unit === 'Rp.'){
     option.value.graphic[0].style.text = 'Total : ' + props.unit + ' ' + props.totalData
-  }else{
+  }else if(props.chartTitle === 'Kadoritsu'){
+    option.value.graphic[0].style.text = 'Average : ' + props.totalData +' '+ props.unit
+  }
+  else{
     option.value.graphic[0].style.text = 'Total : ' + props.totalData +' '+ props.unit
   }
 }

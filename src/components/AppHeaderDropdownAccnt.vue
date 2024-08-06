@@ -46,35 +46,24 @@
         <CIcon icon="cil-file" /> Projects
         <CBadge color="primary" class="ms-auto">{{ itemsCount }}</CBadge>
       </CDropdownItem>
-      <CDropdownDivider />
-      <CDropdownItem>
-        <CIcon icon="cil-shield-alt" /> Lock Account
-      </CDropdownItem> -->
-      <CDropdownItem @click="logout">
-        <CIcon icon="cil-lock-locked"/> Logout
-      </CDropdownItem>
+      <CDropdownDivider />-->
+      <CDropdownItem @click="$emit('open-modal')">
+        <CIcon icon="cil-shield-alt" /> Change Password
+      </CDropdownItem> 
+      <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>
 
-<script>
+<script setup>
 import avatar from '@/assets/images/avatars/10.jpg'
-import Cookies from 'js-cookie';
-import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
-export default {
-  name: 'AppHeaderDropdownAccnt',
-  setup() {
-    const router = useRouter()
-    const logout = () => {
-      Cookies.remove('jwt_token');
-      router.push('/login')
-    }
-    return {
-      avatar: avatar,
-      itemsCount: 42,
-      logout
-    }
-  },
+const logout = () => {
+  Cookies.remove('jwt_token')
+  router.push('/login')
 }
+
 </script>

@@ -76,7 +76,6 @@ const calculatePPM = (a,b) => {
   }else{
     result = result.toFixed(1);
   }
-  console.log(result)
   return Number(result).toLocaleString();
 }
 

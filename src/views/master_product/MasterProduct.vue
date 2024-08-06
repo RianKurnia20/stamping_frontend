@@ -48,8 +48,8 @@ export default {
       }
     };
 
-    onBeforeMount(() => {
-      getUserRole();
+    onBeforeMount( async () => {
+      await getUserRole();
     });
 
     const openModal = (item) => {

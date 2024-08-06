@@ -39,7 +39,7 @@ const toastProps = ref({
   color : 'primary',
   body : '',
   visible: false,
-  placement: 'bottom-end'
+  placement: 'top-end'
 })
 
 const userRole = ref('')

@@ -4,11 +4,12 @@
       <CHeaderToggler @click="$store.commit('toggleSidebar')" style="margin-inline-start: -14px">
         <CIcon icon="cil-menu" size="lg" />
       </CHeaderToggler>
+      <AppBreadcrumb />
       <CHeaderNav class="ms-auto">
         <CNavItem>
-          <ClockCount/>
-        </CNavItem> 
-      </CHeaderNav> 
+          <ClockCount />
+        </CNavItem>
+      </CHeaderNav>
       <CHeaderNav>
         <li class="nav-item py-1">
           <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
@@ -52,19 +53,39 @@
         <li class="nav-item py-1">
           <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
         </li>
-        <div style=" display: flex; text-align: center; align-items: center;" class="rounded-rectangle" :style="{backgroundColor : backgroundColor}">
+        <div
+          style="display: flex; text-align: center; align-items: center"
+          class="rounded-rectangle"
+          :style="{ backgroundColor:backgroundColor }"
+        >
           {{ capitalizeEachWord(role) }}
         </div>
         <li class="nav-item py-1">
           <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
         </li>
-        <AppHeaderDropdownAccnt />
+        <AppHeaderDropdownAccnt @open-modal="openModal" />
       </CHeaderNav>
     </CContainer>
-    <CContainer class="px-4" fluid>
-      <AppBreadcrumb />
-    </CContainer>
+    <!-- <CContainer class="px-4" fluid> -->
+    <!-- <AppBreadcrumb /> -->
+    <!-- </CContainer> -->
+    <ModalChangePassword
+      :visible="modalChangePassword.visible"
+      @close="closeModal"
+      :title="modalChangePassword.title"
+      @success="handleToast"
+    />
   </CHeader>
+  <ToastNotif
+    :color="toastData.color"
+    :body="toastData.body"
+    :toastVisible="toastData.visible"
+    :placement="toastData.placement"
+  >
+    <template #spinner>
+      <CSpinner size="sm" />
+    </template>
+  </ToastNotif>
 </template>
 
 <script>
@@ -74,31 +95,56 @@ import AppBreadcrumb from './AppBreadcrumb'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt'
 import ClockCount from './ClockCount'
 import checkRoles from '../middleware/CheckRoles'
+import ModalChangePassword from './ModalChangePassword.vue'
+import ToastNotif from './ToastNotif.vue'
 
 export default {
   name: 'AppHeader',
   components: {
     AppBreadcrumb,
     AppHeaderDropdownAccnt,
-    ClockCount
+    ClockCount,
+    ModalChangePassword,
+    ToastNotif,
   },
   setup() {
     const headerClassNames = ref('mb-4 p-0')
     const { colorMode, setColorMode } = useColorModes('coreui-free-vue-admin-template-theme')
     const role = ref('')
     const colorRole = {
-      'admin' : '#008585',
-      'viewer' : '#c45161',
-      'staff' : '#808080'
+      admin: '#008585',
+      viewer: '#c45161',
+      staff: '#808080',
     }
+    const toastData = ref({})
 
     const capitalizeEachWord = (str) => {
-      return str.replace(/\b\w/g, (char) => char.toUpperCase());
-    };
-    
+      return str.replace(/\b\w/g, (char) => char.toUpperCase())
+    }
+
     const backgroundColor = computed(() => {
-      return colorRole[role.value] ;
-    });
+      return colorRole[role.value]
+    })
+
+    const modalChangePassword = ref({
+      visible: false,
+      title: 'Change Account Password',
+    })
+
+    const openModal = () => {
+      modalChangePassword.value.visible = true
+    }
+
+    const closeModal = () => {
+      modalChangePassword.value.visible = false
+    }
+
+    const handleToast = () => {
+      toastData.value.color = 'success'
+      toastData.value.body = 'Success change password, redirect you to login page'
+      toastData.value.visible = true
+      toastData.value.placement = 'top-end'
+    }
 
     onMounted(async () => {
       document.addEventListener('scroll', () => {
@@ -109,14 +155,12 @@ export default {
         }
       })
       try {
-        role.value = await checkRoles();
-        console.log(role.value);
+        role.value = await checkRoles()
+        console.log(role.value)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     })
-
-
 
     return {
       headerClassNames,
@@ -124,20 +168,25 @@ export default {
       setColorMode,
       role,
       backgroundColor,
-      capitalizeEachWord
+      capitalizeEachWord,
+      modalChangePassword,
+      openModal,
+      closeModal,
+      handleToast,
+      toastData,
     }
   },
 }
 </script>
 
 <style scoped>
-  .rounded-rectangle {
-    display: inline-block;
-    color: white;
-    padding: 12px 10px; 
-    border-radius: 5px;
-    font-size: 11px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
+.rounded-rectangle {
+  display: inline-block;
+  color: white;
+  padding: 12px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
 </style>

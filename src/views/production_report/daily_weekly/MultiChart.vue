@@ -1,8 +1,8 @@
 <template>
-  <CCol>
-    <CCard>
+  <CCol :sm="props.colSize">
+    <CCard class="mb-2">
       <CCardBody>
-        <v-chart class="chart" :option="option" autoresize/>
+        <v-chart :style="styling" :option="option" autoresize/>
       </CCardBody>
     </CCard>
   </CCol>
@@ -32,9 +32,7 @@ use([
 ])
 
 import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide, watchEffect } from 'vue'
-
-use([CanvasRenderer, LineChart, BarChart, TitleComponent, TooltipComponent, LegendComponent])
+import { ref, provide, watchEffect, computed } from 'vue'
 
 provide(THEME_KEY, 'light')
 
@@ -51,7 +49,16 @@ const props = defineProps({
     default : 'line'
   },
   colorSeries: Array,
+  colSize:Number,
+  height:{
+    type:Number,
+    default:34
+  }
 })
+
+const styling = computed(() => ({
+  height: `${props.height}vh`
+}));
 
 const labelOption = ref({
   show: true,
@@ -186,10 +193,12 @@ const updateChart = () => {
 watchEffect(() => {
   updateChart()
 })
+
+
 </script>
 
 <style scoped>
-.chart {
-  height: 34vh;
-}
 </style>
+// .chart {
+//   height: 34vh;
+// }

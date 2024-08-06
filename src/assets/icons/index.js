@@ -28,9 +28,11 @@ import {
 } from '@coreui/icons'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl } from '@coreui/icons'
 import {
+  cilLoopCircular,
   cilArrowBottom,
   cilArrowRight,
   cilArrowTop,
+  cilArrowCircleTop,
   cilBan,
   cilBasket,
   cilBell,
@@ -92,9 +94,11 @@ import {
 export const iconsSet = Object.assign(
   {},
   {
+    cilLoopCircular,
     cilArrowBottom,
     cilArrowRight,
     cilArrowTop,
+    cilArrowCircleTop,
     cilBan,
     cilBasket,
     cilBell,

@@ -58,7 +58,7 @@ const routes = [
             component: () => import('@/views/production_plan/ProductionPlan.vue'),
             meta: {
               requiresAuth: true,
-              roles: ['admin']
+              roles: ['admin', 'staff']
             },
             beforeEnter: authMiddleware,
           },
@@ -68,8 +68,7 @@ const routes = [
             component: () => import('@/views/machine_history/MachineHistory.vue'),
             meta: {
               requiresAuth: true,
-              // roles: ['admin','staff','viewer']
-              roles: ['admin']
+              roles: ['admin','staff','viewer']
             },
             beforeEnter: authMiddleware,
           },

@@ -4,8 +4,9 @@
     <div class="wrapper d-flex flex-column min-vh-100">
       <AppHeader />
       <div class="body">
-        <CContainer class="px-4" fluid>       
+        <CContainer class="px-4" fluid>    
           <router-view />
+          <ScrollToTop/>
         </CContainer>
       </div>
       <!-- <AppFooter /> -->
@@ -18,6 +19,7 @@ import { CContainer } from '@coreui/vue'
 // import AppFooter from '@/components/AppFooter.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
+import ScrollToTop from '@/components/ScrollToTop.vue';
 
 export default {
   name: 'DefaultLayout',
@@ -26,7 +28,7 @@ export default {
     AppHeader,
     AppSidebar,
     CContainer,
+    ScrollToTop
   },
 }
 </script>
-

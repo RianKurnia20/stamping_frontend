@@ -13,7 +13,7 @@
       <CRow>
         <CCol>
           <CForm>
-            <CFormInput
+            <!-- <CFormInput
               type="text"
               id="idProduction"
               floatingLabel="ID Production"
@@ -23,7 +23,7 @@
               v-model="dataSelected.id_production"
               class="form-input"
               disabled
-            />
+            /> -->
             <CFormInput
               type="text"
               id="date"
@@ -57,10 +57,6 @@
               class="form-input"
               disabled
             />
-          </CForm>
-        </CCol>
-        <CCol>
-          <CForm>
             <CFormInput
               type="text"
               id="shift"
@@ -69,6 +65,32 @@
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="dataSelected.shift"
+              class="form-input"
+              disabled
+            />
+          </CForm>
+        </CCol>
+        <CCol>
+          <CForm>
+            <CFormInput
+              type="text"
+              id="outputProduction"
+              floatingLabel="Good Product"
+              placeholder="Good Product"
+              aria-describedby="exampleFormControlInputHelpInline"
+              size="sm"
+              v-model="dataSelected.ok"
+              class="form-input"
+              disabled
+            />
+            <CFormInput
+              type="text"
+              id="rejectSetting"
+              floatingLabel="Reject Setting (F-028)"
+              placeholder="Reject Setting"
+              aria-describedby="exampleFormControlInputHelpInline"
+              size="sm"
+              v-model="rejectSetting"
               class="form-input"
               disabled
             />
@@ -92,16 +114,7 @@
               v-model="rip"
               class="form-input"
             />
-            <CFormInput
-              type="text"
-              id="rejectSetting"
-              floatingLabel="Reject Setting (F-028)"
-              placeholder="Reject Setting"
-              aria-describedby="exampleFormControlInputHelpInline"
-              size="sm"
-              v-model="rejectSetting"
-              class="form-input"
-            />
+            
           </CForm>
         </CCol>
       </CRow>
@@ -161,11 +174,28 @@ export default {
       dataSelected.value= {};
     }
 
+    // const updateProduction = async () => {
+    //   try {
+    //     const response = await axios.patch(`http://192.168.148.125:5000/productions/${idProduction.value}`, {
+    //       ng: rip.value,
+    //       reject_setting: rejectSetting.value,
+    //       dummy: dummy.value
+    //     });
+    //     props.eventTable.refreshProduction = true;
+    //     resetForm()
+    //     // console.log(response.data);
+    //     // window.location.reload();
+    //   } catch (error) {
+    //     errorMessage.value = error.response.data.message;
+    //     console.error(error);
+    //   }
+    // }
+
     const updateProduction = async () => {
       try {
         const response = await axios.patch(`http://192.168.148.125:5000/productions/${idProduction.value}`, {
           ng: rip.value,
-          reject_setting: rejectSetting.value,
+          // reject_setting: rejectSetting.value,
           dummy: dummy.value
         });
         props.eventTable.refreshProduction = true;

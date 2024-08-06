@@ -49,11 +49,11 @@ const config = ref({
     colorSchemes: {
       shift1: {
         color: '#000',
-        backgroundColor: '#FFC26F',
+        backgroundColor: '#4158A6',
       },
       shift2: {
         color: '#000',
-        backgroundColor: '#C38154',
+        backgroundColor: '#FF8343',
       }
     }
   },
@@ -88,8 +88,8 @@ const fetchData = () => {
         }
         return {
           id: item.id_plan,
-          description: 'Qty : ' + item.qty + ' / Machine : ' + item.id_machine + ' / Product : ' + item.name + ' / Kanagata : ' + item.id_kanagata + ' / Shift : ' + item.shift,
-          topic: item.time_plan + ' minutes',
+          description: 'Qty : ' + item.qty.toLocaleString() + ' / Machine : ' + item.id_machine + ' / Product : ' + item.name + ' / Kanagata : ' + item.id_kanagata + ' / Shift : ' + item.shift,
+          topic: `Plan time : ${item.time_plan} minutes`,
           disableDnD: ['month','week','day'],
           disableResize : ['month','week','day'],
           isEditable: true,        

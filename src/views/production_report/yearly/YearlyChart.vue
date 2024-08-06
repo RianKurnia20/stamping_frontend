@@ -1,6 +1,6 @@
 <template>
-  <CCol>
-    <CCard>
+  <CCol sm="10">
+    <CCard class="mb-2">
       <CCardBody>
         <v-chart class="chart" :option="option" autoresize/>
       </CCardBody>
@@ -45,7 +45,7 @@ const props = defineProps({
   legend: Array,
   chartTitle: String,
   chartData: Object,
-  xAxisName: String,
+  xAxisName: Array,
   chartType: {
     type: String,
     default : 'line'
@@ -155,9 +155,21 @@ const option = ref({
       splitLine: {
         show: true
       },
-      name: props.xAxisName,
+      name: props.xAxisName[0],
+    },
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: yformat,
+        fontSize: 12,
+      },
+      splitLine: {
+        show: true
+      },
+      name: props.xAxisName[1],
     }
   ],
+  
   series: [],
 })
 
@@ -197,6 +209,6 @@ watchEffect(() => {
 
 <style scoped>
 .chart {
-  height: 45vh;
+  height: 41vh;
 }
 </style>

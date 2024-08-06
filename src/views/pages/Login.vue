@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <video autoplay muted loop id="bg-video">
-      <source src="@/assets/videos/register.mp4" type="video/mp4">
+      <source src="@/assets/videos/register.mp4" type="video/mp4" />
       Your browser does not support HTML5 video.
     </video>
     <div class="login-content min-vh-100 d-flex flex-row align-items-center">
@@ -12,7 +12,12 @@
               <CCard class="p-4">
                 <CCardBody>
                   <CForm>
-                    <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="58" style="margin-bottom: .5rem;"/>
+                    <CImage
+                      custom-class-name="sidebar-brand-full"
+                      :src="hrs"
+                      :height="58"
+                      style="margin-bottom: 0.5rem"
+                    />
                     <p class="text-body-secondary">Sign In to your account</p>
                     <CInputGroup class="mb-3">
                       <CInputGroupText>
@@ -49,18 +54,16 @@
                 </CCardBody>
               </CCard>
               <CCard class="text-white bg-primary py-5" style="width: 44%">
-                <CCardBody class="text-center">
-                  <div>
+                <CCardBody
+                  class="d-flex justify-content-center align-items-center"
+                  style="height: 100%"
+                >
+                  <div class="text-center">
                     <h1>Sign up</h1>
-                    <p>
-                      Tell developer for new access account to this site 
-                      or hit button bellow to register by your self.
-                    </p>
-                    <router-link to="/register">
-                      <CButton color="light" variant="outline" class="mt-3 custom-button">
+                    <p>Tell developer for new access account to this site. or hit button bellow to register by your self</p>
+                      <CButton color="light" variant="outline" class="mt-2 custom-button" disabled @click="register()">
                         Register Now!
                       </CButton>
-                    </router-link>
                   </div>
                 </CCardBody>
               </CCard>
@@ -73,10 +76,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import hrs from '@/assets/images/hrs.png'
 
 export default {
@@ -89,35 +92,46 @@ export default {
 
     const login = async () => {
       try {
-          const response = await axios.post('http://192.168.148.125:5000/auth/login', {
+        const response = await axios.post(
+          'http://192.168.148.125:5000/auth/login',
+          {
             email: email.value,
-            password: password.value
-          });
+            password: password.value,
+          },
+          // {
+          //   withCredentials: true, // Ensure cookies are sent and received
+          // },
+        )
 
-          // Handle respons dari API jika login berhasil
-          // this.token = response.data.token
-          Cookies.set('jwt_token', response.data.token, {expires: 4});
-          // Contoh: redirect ke halaman dashboard jika login berhasil
-          router.push('/live_dashboard');
-        } catch (error) {
-          // Handle error jika login gagal
-          errorMessage.value = error.response.data.message || 'An error occurred during login.';
-          console.error(error);
-        }
+        // Handle respons dari API jika login berhasil
+        // this.token = response.data.token
+        Cookies.set('jwt_token', response.data.token, { expires: 24, sameSite: 'lax' })
+        // Contoh: redirect ke halaman dashboard jika login berhasil
+        router.push('/live_dashboard')
+      } catch (error) {
+        // Handle error jika login gagal
+        errorMessage.value = error.response.data.message || 'An error occurred during login.'
+        console.error(error)
+      }
+    }
+
+    const register = () => {
+      router.push('/register')
     }
     return {
       email,
       password,
       login,
       errorMessage,
-      hrs
-    };
-  }
+      hrs,
+      register,
+    }
+  },
 }
 </script>
 
 <style scoped>
-.bg-login{
+.bg-login {
   background-image: url('@/assets/images/waves.svg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
