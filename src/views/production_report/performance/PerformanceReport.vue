@@ -28,6 +28,11 @@
     :oeeValue="totalOee"
     />
   </CRow>
+  <!-- <CRow>
+    <h1>MQTT DATA</h1>
+    <p>Topic : </p>
+    <p>Data : {{ dataSensor }}</p>
+  </CRow> -->
 </template>
 
 <script setup>
@@ -37,6 +42,7 @@ import MonthSelector from '../monthly/MonthSelector.vue'
 import MultiChart from '../daily_weekly/MultiChart.vue'
 import GaugeChart from './GaugeChart.vue'
 import axios from 'axios'
+// import mqtt from 'mqtt'
 
 const selectedMachine = ref('STAMPING LINE 1')
 const selectedMonth = ref({ month: new Date().getMonth(), year: new Date().getFullYear() })
@@ -56,6 +62,13 @@ const totalOee = ref({
   quality : 0
 })
 
+// const dataSensor = ref('')
+// const options = {
+//         username: 'frontend',
+//         password: 'Riankurnia20',
+//         clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
+//     };
+
 watch([selectedMachine, selectedMonth], ([newMachine, newMonth]) =>{
   fetchDailyOee(newMachine, newMonth.year, newMonth.month)
   fetchMonthlyOee(newMachine, newMonth.year, newMonth.month)
@@ -64,8 +77,33 @@ watch([selectedMachine, selectedMonth], ([newMachine, newMonth]) =>{
 onBeforeMount( async () => {
   await fetchDailyOee(selectedMachine.value, selectedMonth.value.year, selectedMonth.value.month)
   await fetchMonthlyOee(selectedMachine.value, selectedMonth.value.year, selectedMonth.value.month)
-  console.log(totalOee.value)
 })
+
+// onMounted(() =>{
+//   console.log(options)
+// // connect to your cluster, insert your host name and port
+// const client = mqtt.connect('wss://c53c2dae35f8457a81d465a2c399c47c.s1.eu.hivemq.cloud:8884/mqtt', options);
+
+// // prints a received message
+// client.on('message', function(topic, message) {
+//   console.log(String.fromCharCode.apply(null, message)); // need to convert the byte array to string
+//   dataSensor.value = String.fromCharCode.apply(null, message)
+// });
+
+// // reassurance that the connection worked
+// client.on('connect', () => {
+//   console.log('Connected!');
+// });
+
+// // prints an error message
+// client.on('error', (error) => {
+//   console.log('Error:', error);
+// });
+
+// // subscribe and publish to the same topic
+// client.subscribe('test/sensor');
+// // client.publish('data/sensor', 'Hello, this message was received!');
+// })
 
 const fetchDailyOee = async(machine, year, month) => {
   try {

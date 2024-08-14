@@ -27,7 +27,7 @@
               size="sm"
               class="form-input"
               v-model="qty"
-              :disabled="mode === 'delete' || stateDate === false"
+              :disabled="mode === 'delete'"
             />
           </CCol>
           <CCol>
@@ -53,7 +53,7 @@
               <VueDatePicker
                 id="date-picker"
                 v-model="dateStart"
-                :enable-time-picker="true"
+                :enable-time-picker="false"
                 vertical
                 placeholder="Select Time"
                 style="margin-bottom: 1rem"
@@ -69,7 +69,7 @@
               </label>
               <VueDatePicker
                 v-model="dateEnd"
-                :enable-time-picker="true"
+                :enable-time-picker="false"
                 vertical
                 placeholder="Select Time"
                 style="margin-bottom: 1rem"
@@ -89,13 +89,15 @@
       <p v-if="errorMessage" style="font-size: small; color: red">Error : {{ errorMessage }}</p>
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="handleClose" variant="outline" shape="rounded-pill">Close</CButton>
+      <CButton color="secondary" @click="handleClose" variant="outline" shape="rounded-pill"
+        >Close</CButton
+      >
       <CButton
         variant="outline"
         shape="rounded-pill"
         :color="mode === 'update' ? 'primary' : mode === 'delete' ? 'danger' : 'success'"
         @click="mode === 'update' ? updatePlan() : mode === 'delete' ? deletePlan() : addPlan()"
-        :disabled="mode === 'update' && stateDate === false || mode ==='delete' && stateDate === false"
+        :disabled="mode === 'delete' && stateDate === false"
       >
         {{ mode === 'update' ? 'Update' : mode === 'delete' ? 'Delete' : 'Save' }}
       </CButton>
@@ -111,13 +113,16 @@ const emit = defineEmits(['close'])
 const mode = ref('create')
 const pcaOptions = ref([])
 const dateStart = ref(new Date())
+dateStart.value.setHours(7,0,0,0)
 const dateEnd = ref(new Date())
+dateEnd.value.setHours(19,0,0,0)
 const idPca = ref('11')
 const idPlan = ref(null)
 const qty = ref(0)
 const shift = ref('1')
 const errorMessage = ref(null)
 const stateDate = ref(true)
+const validationDate = ref(true)
 
 const props = defineProps({
   visible: {
@@ -128,6 +133,7 @@ const props = defineProps({
   eventTable: Object,
 })
 
+// modal state watcher
 watch(
   () => props.item,
   (newValue) => {
@@ -146,9 +152,41 @@ watch(
   },
 )
 
-// const canPerformAction = computed(() => {
-//   return dateStart.value && dateEnd.value
-// })
+// shift watcher
+watch(shift, (newShift) => {
+  if (newShift === '1') {
+    // Manipulasi dateStart dan dateEnd untuk shift 1
+    let startDate = new Date(dateStart.value)
+    startDate.setHours(7, 0, 0, 0)
+
+    let endDate = new Date(dateStart.value)
+    endDate.setHours(19, 0, 0, 0) 
+
+    dateStart.value = startDate
+    dateEnd.value = endDate
+  } else if(newShift == '2'){
+    let startDate = new Date(dateStart.value)
+    startDate.setHours(19, 0, 0, 0)
+
+    let endDate = new Date(dateStart.value)
+    endDate.setDate(startDate.getDate() + 1)
+    endDate.setHours(7, 0, 0, 0) 
+
+    dateStart.value = startDate
+    dateEnd.value = endDate
+  }
+})
+
+// datestart, dateend  watcher untuk update plan
+watch([dateStart, dateEnd], ([newStart, newEnd]) => {
+  const now = new Date()
+  if(newStart < now || newEnd < now || newEnd < newStart){
+    validationDate.value = false
+  }
+  else if(newStart > newEnd || newEnd > newStart){
+    validationDate.value = true
+  }
+})
 
 onMounted(async () => {
   pcaOptions.value = await fetchPcaData()
@@ -164,16 +202,19 @@ const resetForm = () => {
   shift.value = 1
   dateStart.value = new Date()
   dateEnd.value = new Date()
+  dateStart.value.setHours(7,0,0,0)
+  dateEnd.value.setHours(19,0,0,0)
   idPca.value = 11
   idPlan.value = null
   errorMessage.value = null
   stateDate.value = true
+  validationDate.value=true
 }
 
 const addPlan = async () => {
   try {
     // eslint-disable-next-line no-unused-vars
-    const isDateValid = await checkingDate(dateStart.value, dateEnd.value,'add')
+    const isDateValid = await checkingDate(dateStart.value, dateEnd.value, 'add')
 
     if (!isDateValid) {
       errorMessage.value =
@@ -199,17 +240,11 @@ const addPlan = async () => {
 }
 
 const updatePlan = async () => {
+  // if(!validationDate.value){
+  //   errorMessage.value = ''
+  //   return
+  // }
   try {
-
-    const isDateValid = await checkingDate(dateStart.value, dateEnd.value,'add')
-
-    if (!isDateValid) {
-      errorMessage.value =
-        'Production start or end times have passed, or the end time of production must not be below the start time of production'
-      console.error(errorMessage.value)
-      return
-    }
-
     await axios.patch(`http://192.168.148.125:5000/plan/${idPlan.value}`, {
       id_pca: idPca.value,
       qty: qty.value,
@@ -287,15 +322,33 @@ const fetchPlanData = async (id_plan) => {
 }
 
 // validasi tanggal plan production
-const checkingDate = async (start, end, process = '') => {
+const checkingDate = (start, end, process = '') => {
   const now = new Date()
   const startDate = new Date(start)
   const endDate = new Date(end)
 
   // Membuat objek tanggal tanpa waktu
-  const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
-  const startOnlyDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours(), startDate.getMinutes());
-  const endOnlyDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endDate.getHours(), endDate.getMinutes());
+  const nowDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    now.getHours(),
+    now.getMinutes(),
+  )
+  const startOnlyDate = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate(),
+    startDate.getHours(),
+    startDate.getMinutes(),
+  )
+  const endOnlyDate = new Date(
+    endDate.getFullYear(),
+    endDate.getMonth(),
+    endDate.getDate(),
+    endDate.getHours(),
+    endDate.getMinutes(),
+  )
 
   if (process === 'add') {
     if (endOnlyDate < startOnlyDate) {
@@ -310,4 +363,5 @@ const checkingDate = async (start, end, process = '') => {
     return false // Rentang waktu sudah terlewat
   }
 }
+
 </script>

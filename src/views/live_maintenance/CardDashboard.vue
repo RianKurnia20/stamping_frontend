@@ -3,26 +3,21 @@
     <CCardBody>
       <CRow class="d-flex justify-content-between align-items-center">
         <CCol class="big-font" sm="6">
-          {{ cardName }}
+          {{ cardName }}  
         </CCol>
         <CCol sm="auto">
-          <CIcon
-            icon="cil-settings"
-            size="xl"
-            class="hover-icon"
-            @click="toggleStatus()"
-          />
+          <span class="big-font">COUNTER SHOOT MONITOR</span>
         </CCol>
       </CRow>
-      <CRow>
-        <template v-for="(item, index) in props.item" :key="index">
+      <CRow v-for="(group, groupIndex) in groupedItems" :key="groupIndex">
+        <template v-for="(item, index) in group" :key="index">
           <ShootBar
             :barName="item[0]"
             :shootCount="item[1]"
             :barTarget1="item[2]"
             :barTarget2="item[3]"
-            :toggleIcon="toggleIcon"
             :lastMaintenance="getLastMaintenance(item[0])"
+            :toggleIcon="toggleIcon"
           >
           </ShootBar>
         </template>
@@ -34,21 +29,39 @@
 <script setup>
 import ShootBar from './ShootBar.vue'
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
+// import { useStore } from 'vuex';
+
 const props = defineProps({
   item: Array,
   cardName: String,
 })
 const lastMaintenance = ref([])
-const toggleIcon = ref(false)
-
-const toggleStatus = () =>{
-  toggleIcon.value = !toggleIcon.value;
-}
+const toggleIcon = ref(true)
+// const store = useStore()
 
 onMounted(() => {
   fetchData(props.cardName)
+  // store.commit('toggleSidebar')
+  console.log(groupedItems.value)
 })
+
+const groupedItems = computed(() => {
+  const items = props.item;
+  const result = [];
+  // Membagi items menjadi grup 8 item per baris
+  for (let i = 0; i < items.length; i += 9) {
+    const group = items.slice(i, i + 9);
+    // Menambahkan placeholder jika kurang dari 8 item
+    while (group.length < 9) {
+      group.push(['', 0, 0, 0]); // Menambahkan placeholder kosong
+    }
+    result.push(group);
+  }
+  return result;
+});
+
+
 
 const getLastMaintenance = (partName) => {
   const maintenance = lastMaintenance.value.find((item) => item.part === partName)

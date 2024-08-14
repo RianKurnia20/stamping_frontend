@@ -113,8 +113,8 @@ const fetchData = () => {
         reject_setting: item.reject_setting.toLocaleString(),
         ng: item.ng.toLocaleString(),
         dummy: item.dummy.toLocaleString(),
-        qty_plan: item.qty_plan ? item.qty_plan.toLocaleString() : '-',
-        bekidoritsu: item.bekidoritsu ? item.bekidoritsu : '-',
+        qty_plan: item.qty_plan ? item.qty_plan.toLocaleString() : 0,
+        bekidoritsu: item.bekidoritsu ? item.bekidoritsu : 0,
       }))
       // console.log(formattedData)
       data.value = formattedData
