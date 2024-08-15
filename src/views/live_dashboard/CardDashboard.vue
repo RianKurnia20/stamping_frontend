@@ -1,10 +1,10 @@
 <template>
   <div class="container-card-monitoring">
-    <CCard class="mb-0" style="border: 0.5px solid black; border-radius: 2px;">
-      <CCardBody :class="[cardClasses, 'card-body-monitoring']" @click="handleCardClick()" >
+    <CCard class="mb-0" style="border: 0.5px solid black; border-radius: 2px">
+      <CCardBody :class="[cardClasses, 'card-body-monitoring']" @click="handleCardClick()">
         <CRow class="mb-3">
-          <CCol sm="4" class="big-font d-flex">{{ props.item[0] }}</CCol>
-          <CCol sm="6" class="normal-font text-end"
+          <CCol sm="6" class="big-font d-flex">{{ props.item[0] }}</CCol>
+          <CCol sm="4" class="normal-font text-end"
             >Kanagata:
             <span v-for="(value, index) in props.item[5]" :key="index" class="small-font">{{
               value
@@ -45,7 +45,7 @@
           >
         </CRow>
         <CRow class="mb-1">
-          <CCol sm="4" v-if="props.item[2] == 'STOP'" class="normal-font"
+          <CCol sm="4" v-if="props.item[2] == 'STOP' || props.item[2] == 'SETTING'" class="normal-font"
             >Stop Cause: <span class="small-font">{{ props.item[3] }}</span></CCol
           >
           <CCol sm="4" v-else class="normal-font"
@@ -53,14 +53,16 @@
             <span class="small-font">{{ props.item[14] }} SPM</span>
           </CCol>
           <CCol sm="5" class="normal-font"
-            >Reject Setting: <span class="small-font">{{ props.item[12].toLocaleString() }} pin</span></CCol
+            >Reject Setting:
+            <span class="small-font">{{ props.item[12].toLocaleString() }} pin</span></CCol
           >
           <CCol sm="3" class="normal-font text-right"
             >Dandori Time: <span class="small-font">{{ props.item[15] }} min</span></CCol
           >
         </CRow>
         <CRow class="mb-1">
-          <CCol class="normal-font">Alarm: </CCol>
+          <CCol class="normal-font">Alarm: 
+          </CCol>
           <CCol sm="5" v-if="props.item[2] == 'STOP'" class="normal-font"
             >Clocking Stop: <span class="small-font">{{ props.item[8] }}</span></CCol
           >
@@ -77,18 +79,19 @@
           <CCol
             v-if="props.item[13].length != 0"
             style="font-size: 0.8rem; font-weight: 600; font-family: Arial, Helvetica, sans-serif"
-            >{{ props.item[13] }}
-          </CCol>
-          <CCol
-            v-else
-            style="font-size: 0.8rem; font-family: Arial, Helvetica, sans-serif"
-            >[ No Alarm Detected ]</CCol
           >
+            <a-tag v-for="(item, index) in props.item[13]" :key="index" color="#f50" style="margin: 0.1rem;">
+              <span>{{ item }}</span>
+            </a-tag>
+          </CCol>
+          <CCol v-else style="font-size: 0.8rem; font-family: Arial, Helvetica, sans-serif"
+          ><a-tag color="#3C3D37">No Alarm Detected</a-tag>
+          </CCol>
         </CRow>
       </CCardBody>
     </CCard>
     <Transition name="fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
-      <FooterCardDashboard :machine="props.item[0]" v-if="visibleFooter"/>
+      <FooterCardDashboard :machine="props.item[0]" v-if="visibleFooter" />
     </Transition>
   </div>
 </template>
@@ -138,7 +141,6 @@ const handleCardClick = () => {
 .card-body-monitoring {
   font-family: Oswald;
   font-size: 20px;
-
 }
 
 .big-font {
@@ -181,7 +183,8 @@ const handleCardClick = () => {
   }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
@@ -191,13 +194,21 @@ const handleCardClick = () => {
 
 /* Atau jika menggunakan keyframes */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .fade-enter-active {

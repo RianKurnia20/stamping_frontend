@@ -31,6 +31,8 @@ const color = computed(() => {
     return 'red'
   } else if (props.power === 'Off') {
     return 'grey'
+  } else if(props.power === 'On' && props.status === 'Setting'){
+    return 'rgb(249,177,22)'
   }
   return 'dark'
 })
