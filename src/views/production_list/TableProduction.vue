@@ -3,6 +3,10 @@
     <CCol sm="2" class="mb-2">
       <CFormInput size="sm" type="text" id="searchData" v-model="search" placeholder="Search" />
     </CCol>
+    <!-- <CCol sm="10"></CCol> -->
+    <CCol class="mb-2 d-flex justify-content-end" v-if="userRole == 'admin'">
+      <CButton size="sm" color="success" variant="outline" @click="addItem"><CIcon icon="cilPlus" size="sm"/> Add</CButton>
+    </CCol>
   </CRow>
   <div>
     <vue3-datatable
@@ -57,6 +61,7 @@ watch(
       // eslint-disable-next-line vue/no-mutating-props
       props.eventTable.refreshProduction = false
       instance.emit('close')
+      instance.emit('close-add-item')
       instance.emit('notif')
     }
   },
@@ -130,5 +135,9 @@ const fetchData = () => {
 
 const editItem = (item) => {
   instance.emit('edit-item', item)
+}
+
+const addItem = () => {
+  instance.emit('add-item')
 }
 </script>

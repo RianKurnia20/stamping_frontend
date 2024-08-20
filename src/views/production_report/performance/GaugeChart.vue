@@ -152,7 +152,7 @@ const option = ref({
         borderWidth: 2,
         formatter: '{value}%',
       },
-      radius: '80%',
+      radius: '70%',
     },
   ],
   graphic: [

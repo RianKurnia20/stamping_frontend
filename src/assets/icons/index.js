@@ -88,7 +88,8 @@ import {
   cilPlus,
   cilFilter,
   cilClock,
-  cilAvTimer
+  cilAvTimer,
+  cilMedicalCross
 } from '@coreui/icons'
 
 export const iconsSet = Object.assign(
@@ -154,7 +155,8 @@ export const iconsSet = Object.assign(
     cilPlus,
     cilFilter,
     cilClock,
-    cilAvTimer
+    cilAvTimer,
+    cilMedicalCross
   },
   {
     cifUs,

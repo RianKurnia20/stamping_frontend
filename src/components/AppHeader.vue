@@ -156,7 +156,6 @@ export default {
       })
       try {
         role.value = await checkRoles()
-        console.log(role.value)
       } catch (error) {
         console.error(error)
       }
