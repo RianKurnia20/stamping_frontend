@@ -22,7 +22,7 @@
     import Vue3Datatable from '@bhplugin/vue3-datatable';
     import '@bhplugin/vue3-datatable/dist/style.css';
     import formatDate from '@/middleware/LocaleDate';
-
+      defineEmits(['edit-item', 'delete-item', 'close', 'notif']);
       const instance = getCurrentInstance();
       const search = ref('')
       const props = defineProps(['userRole', 'eventTable']);

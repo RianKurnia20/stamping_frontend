@@ -120,6 +120,7 @@ const fetchData = () => {
         dummy: item.dummy.toLocaleString(),
         qty_plan: item.qty_plan ? item.qty_plan.toLocaleString() : 0,
         bekidoritsu: item.bekidoritsu ? item.bekidoritsu : 0,
+        kadoritsu: item.kadoritsu ? item.kadoritsu : 0,
       }))
       // console.log(formattedData)
       data.value = formattedData

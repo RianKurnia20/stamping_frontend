@@ -199,12 +199,12 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import('@/views/pages/Register'),
+    component: () => import('@/views/pages/NewRegister'),
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/pages/Login'),
+    component: () => import('@/views/pages/NewLogin'),
   },
   {
     path: '/:pathMatch(.*)*',  // This is the wildcard route

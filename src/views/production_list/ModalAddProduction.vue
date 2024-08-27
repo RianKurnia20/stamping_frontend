@@ -12,14 +12,14 @@
       <CRow>
         <CForm>
           <CFormSelect
-            label="PCA Data"
+            floatingLabel="PCA Data"
             :options="pcaOptions"
             class="form-input"
             size="sm"
             v-model="id_pca"
           />
           <CFormSelect
-            label="Plan Data"
+            floatingLabel="Plan Data"
             :options="planOptions"
             class="form-input"
             size="sm"
@@ -34,7 +34,7 @@
             <CFormInput
               type="text"
               id="ok"
-              label="Good Product"
+              floatingLabel="Good Product"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="ok"
@@ -43,7 +43,7 @@
             <CFormInput
               type="text"
               id="ng"
-              label="Reject In Process"
+              floatingLabel="Reject In Process"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="ng"
@@ -52,7 +52,7 @@
             <CFormInput
               type="text"
               id="productionTime"
-              label="Production Time"
+              floatingLabel="Production Time"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="production_time"
@@ -65,7 +65,7 @@
             <CFormInput
               type="text"
               id="rejectSetting"
-              label="Reject Setting (F-028)"
+              floatingLabel="Reject Setting (F-028)"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="reject_setting"
@@ -74,7 +74,7 @@
             <CFormInput
               type="text"
               id="stopTime"
-              label="Stop Time"
+              floatingLabel="Stop Time"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="stop_time"
@@ -83,7 +83,7 @@
             <CFormInput
               type="text"
               id="dandoriTime"
-              label="Dandori Time"
+              floatingLabel="Dandori Time"
               aria-describedby="exampleFormControlInputHelpInline"
               size="sm"
               v-model="dandori_time"

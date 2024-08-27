@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-6 mb-3" v-for="(item, index) in data" :key="index">
+    <div class="col-6 mb-3 p-1" v-for="(item, index) in data" :key="index" style="min-width: 600px; max-width: 100%; flex: 1 1 auto;">
       <CardDashboard :item="item"/>
     </div>
   </div>

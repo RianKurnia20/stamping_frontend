@@ -83,6 +83,7 @@ import { useRouter } from 'vue-router'
 import hrs from '@/assets/images/hrs.png'
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Login',
   setup() {
     const email = ref('')

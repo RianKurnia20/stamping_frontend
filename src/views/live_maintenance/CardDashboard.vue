@@ -43,7 +43,7 @@ const toggleIcon = ref(true)
 onMounted(() => {
   fetchData(props.cardName)
   // store.commit('toggleSidebar')
-  console.log(groupedItems.value)
+  // console.log(groupedItems.value)
 })
 
 const groupedItems = computed(() => {

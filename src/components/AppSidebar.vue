@@ -1,8 +1,8 @@
 <template>
   <CSidebar
     class="border-end"
-    colorScheme="dark"
     position="fixed"
+    colorScheme="dark"
     :unfoldable="sidebarUnfoldable"
     :visible="sidebarVisible"
     @visible-change="
@@ -17,14 +17,16 @@
     <CSidebarHeader class="border-bottom">
       <RouterLink custom to="/" v-slot="{ href, navigate }">
         <CSidebarBrand v-bind="$attrs" as="a" :href="href" @click="navigate">
-          <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="32" :width="160"/> 
+          <CImage custom-class-name="sidebar-brand-full" :src="hrs" :height="32" :width="160" />
         </CSidebarBrand>
       </RouterLink>
       <CCloseButton class="d-lg-none" dark @click="$store.commit('toggleSidebar')" />
     </CSidebarHeader>
     <AppSidebarNav />
     <CSidebarFooter class="border-top d-none d-lg-flex">
-      <div class="footer-copyright">PT. HIROSE ELECTRIC IDN RK20 <span class="ms-1">&copy; {{ new Date().getFullYear() }}</span></div>
+      <div class="footer-copyright">
+        PT. HIROSE ELECTRIC IDN RK20 <span class="ms-1">&copy; {{ new Date().getFullYear() }}</span>
+      </div>
       <!-- <CSidebarToggler @click="$store.commit('toggleUnfoldable')" /> -->
     </CSidebarFooter>
   </CSidebar>
@@ -53,10 +55,9 @@ export default {
 }
 </script>
 
-
 <style scoped>
-.footer-copyright{
+.footer-copyright {
   font-size: small;
-  font-family:monospace;
+  font-family: monospace;
 }
 </style>

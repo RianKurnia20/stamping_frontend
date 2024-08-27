@@ -55,8 +55,6 @@ const shift2 = ref(null)
 onMounted( async () => {
   shift1.value = await lastProduction(props.machine, 1)
   shift2.value = await lastProduction(props.machine, 2)
-  // console.log(shift1.value)
-  // console.log(shift2.value)
 })
 
 const lastProduction = async (machine, shift) => {
@@ -85,6 +83,9 @@ const calculatePPM = (a,b) => {
 .footer-card-monitoring{
   padding: 1rem;
   border: 0.5px solid black;
+  min-width: 600px; 
+  max-width: 100%; 
+  flex: 1 1 auto;
 }
 
 .xsmall-font{
